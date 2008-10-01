@@ -1,0 +1,32 @@
+# Elgg htaccess directives
+# Copyright Curverider Ltd 2008
+# License http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
+# Link http://elgg.org/
+
+php_flag magic_quotes_gpc off
+
+RewriteEngine on
+
+#
+# If you are installing Elgg to an unusual location (for example your personal public_html directory)
+# then you may need to uncomment this line and modify accordingly:
+#
+# RewriteBase /web/path/to/elgg/root/
+#
+
+RewriteRule ^cron\/$ engine/handlers/cron_handler.php
+
+RewriteRule ^action\/([A-Za-z\_\-\/]+)$ engine/handlers/action_handler.php?action=$1
+RewriteRule ^actions\/([A-Za-z\_\-\/]+)$ engine/handlers/action_handler.php?action=$1
+
+RewriteRule ^export\/([A-Za-z]+)\/([0-9]+)$ services/export/handler.php?view=$1&guid=$2
+RewriteRule ^export\/([A-Za-z]+)\/([0-9]+)\/$ services/export/handler.php?view=$1&guid=$2
+RewriteRule ^export\/([A-Za-z]+)\/([0-9]+)\/([A-Za-z]+)\/([A-Za-z0-9\_]+)\/$ services/export/handler.php?view=$1&guid=$2&type=$3&idname=$4
+
+RewriteRule ^\_css\/css\.css$ _css/css.php
+
+RewriteRule ^pg\/([A-Za-z\_\-]+)\/(.*)$ engine/handlers/pagehandler.php?handler=$1&page=$2
+RewriteRule ^pg\/([A-Za-z\_\-]+)$ engine/handlers/pagehandler.php?handler=$1
+
+RewriteRule xml-rpc.php engine/handlers/xml-rpc_handler.php
+RewriteRule mt/mt-xmlrpc.cgi engine/handlers/xml-rpc_handler.php
