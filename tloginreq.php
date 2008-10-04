@@ -46,11 +46,12 @@ if (empty($_SERVER['PHP_AUTH_DIGEST'])) {
 }
 
 // Analyze the PHP_AUTH_DIGEST variable
-if (!($data = http_digest_parse($_SERVER['PHP_AUTH_DIGEST'])))
+if (!($data = http_digest_parse($_SERVER['PHP_AUTH_DIGEST']))) {
     die('Not digest authentication!');
+}
 
-// Check nonce freshness to be less than 10 minutes
-if (hexdec(substr($data['nonce'], -8)) < (time()-600)) {
+// Check nonce freshness to be less than 1 minutes
+if (hexdec(substr($data['nonce'], -8)) < (time()-60)) {
     // Regenerate nonce and resend authentication request
     $nonce = md5(uniqid(mt_rand(), true)).dechex(time());
     header('HTTP/1.1 401 Unauthorized');
@@ -60,13 +61,15 @@ if (hexdec(substr($data['nonce'], -8)) < (time()-600)) {
 }
 
 // Generate the valid response
-// *** need to make sure user is authenticated
-require 'dbopen.php';
+require 'tdbopen.php';
 $username = sanitize_string(stripslashes($data['username']));
-if (!($pass = mysql_query("SELECT password FROM elggusers_entity
+if (!($result = mysql_query("SELECT * FROM elggusers_entity
     WHERE username = '$username'")))
     die(mysql_errno().': '.mysql_error);
-$HA1 = md5($data['username'].':'.$realm.':'.$pass);
+
+$row = mysql_fetch_assoc($result);
+
+$HA1 = md5($data['username'].':'.$realm.':'.$row['password']);
 $HA2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
 $valid_response = md5($HA1.':'.$data['nonce'].':'.$data['nc'].':'.
     $data['cnonce'].':'.$data['qop'].':'.$HA2);
@@ -74,25 +77,26 @@ $valid_response = md5($HA1.':'.$data['nonce'].':'.$data['nc'].':'.
 if ($data['response'] != $valid_response)
     die('Wrong Credentials!');
 
+// Check if account has been enabled through email verification
+if (!($result = mysql_query("SELECT enabled FROM elggentities
+    WHERE guid = '".$row['guid']."'")))
+    die(mysql_errno().': '.mysql_error);
+
+$row = mysql_fetch_row($result);
+
+if ($row[0] != 'yes')
+    die('Account not enabled!');
+
 // Valid username & password
 echo 'Your are logged in as: '.$data['username'];
 
 
 // Function to parse the http auth header
-function http_digest_parse($txt) {
-    // Protect against missing data
-    $needed_parts = array('nonce'=>1, 'nc'=>1, 'cnonce'=>1, 'qop'=>1,
-        'username'=>1, 'uri'=>1, 'response'=>1);
-    $data = array();
-
-    preg_match_all('@(\w+)=(?:([\'"])([^\2]+)\2|([^\s,]+))@', $txt,
-        $matches, PREG_SET_ORDER);
-
-    foreach ($matches as $m) {
-        $data[$m[1]] = $m[3] ? $m[3] : $m[4];
-        unset($needed_parts[$m[1]]);
-    }
-    return $needed_parts ? false : $data;
+function http_digest_parse($digest) {
+    preg_match_all('@(username|nonce|uri|nc|cnonce|qop|response)'.
+                    '=[\'"]?([^\'",]+)@', $digest, $t);
+    $data = array_combine($t[1], $t[2]);
+    return (count($data)==7) ? $data : false;
 }
 
 /**

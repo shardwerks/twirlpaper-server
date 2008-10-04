@@ -1,6 +1,6 @@
 <?php
 $dbhost = 'localhost';
-$dbuser = 'interface';
+$dbuser = 'tinterface';
 $dbpass = 'lemmein';
 
 $conn = mysql_connect($dbhost, $dbuser, $dbpass) or die
