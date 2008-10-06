@@ -13,12 +13,6 @@
 	define("LENGTH_LONG",128);	// Max length of: imageinfo, imageurl,
 								//	imagetags, subscribedtags
 
-
-	// Make a MySQL Connection
-	mysql_connect("localhost", "root", "") or die(mysql_error());
-	mysql_select_db("elgg") or die(mysql_error());
-
-
 	// If login and second value valid, return True,
 	// otherwise assume user is guest and return False
 	function tuser_confirm($second = "") {
@@ -58,17 +52,13 @@
 		return False;
 	}
 
-
-	// Make string MySQL-safe, short data length version
-	function tsafe_mysql_short($unsafe) {
-		return mysql_real_escape_string(
-						substr($unsafe, 0, LENGTH_SHORT));
-	}
-
-
-	// Make string MySQL-safe, long data length version
-	function tsafe_mysql_long($unsafe) {
-		return mysql_real_escape_string(
-						substr($unsafe, 0, LENGTH_LONG));
-	}
+/**
+ * Sanitise a string for database use (adapted from elgg)
+ *
+ * @param string $string The string to sanitise
+ * @return string Sanitised string
+ */
+function sanitize_string($string, $length) {
+    return mysql_real_escape_string(substr(trim($string), 0, $length));
+}
 ?>

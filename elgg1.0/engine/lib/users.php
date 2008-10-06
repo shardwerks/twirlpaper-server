@@ -1032,7 +1032,7 @@
     ## already required for elgg, therefore can use javascript MD5 code.
 	function generate_user_password(ElggUser $user, $password)
 	{
-		return md5($password . 'Restricted@twirlpaper.com');
+		return md5($password . $user->username . 'Restricted@twirlpaper.com');
 	}
 	
 	/**

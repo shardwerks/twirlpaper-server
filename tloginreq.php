@@ -1,21 +1,11 @@
 <?php
 
-#	author		= "Shultz Wang"
+#	author	= "Shultz Wang"
 #	version 	= "Revision 0.1"
 #	date		= "September 08, 2007 07:52:17 AM"
 #	copyright	= "Copyright (c) 2007 Shultz Wang"
 #
 #	Process login request from client
-#
-#	From client:
-#		"login"
-#		"hashed"
-#
-#	To client:
-#		"clientid"
-
-//$_POST["login"] = "beatz";
-//$_POST["password"] = md5("gimmedat");
 
 //      require_once(dirname(__FILE__)."/tfunclib.php");
 
@@ -42,7 +32,7 @@ if (empty($_SERVER['PHP_AUTH_DIGEST'])) {
     header('HTTP/1.1 401 Unauthorized');
     header('WWW-Authenticate: Digest realm="'.$realm.
         '",qop="auth",nonce="'.$nonce.'",opaque="'.md5($realm).'"');
-    die('Login failed');
+    die('Sign in failed!');
 }
 
 // Analyze the PHP_AUTH_DIGEST variable
@@ -62,7 +52,9 @@ if (hexdec(substr($data['nonce'], -8)) < (time()-60)) {
 
 // Generate the valid response
 require 'tdbopen.php';
-$username = sanitize_string(stripslashes($data['username']));
+require 'tfunclib.php';
+
+$username = sanitize_string($data['username'], 32);
 if (!($result = mysql_query("SELECT * FROM elggusers_entity
     WHERE username = '$username'")))
     die(mysql_errno().': '.mysql_error);
@@ -88,6 +80,8 @@ if ($row[0] != 'yes')
     die('Account not enabled!');
 
 // Valid username & password
+$userid = md5(uniqid(mt_rand(), true));
+
 echo 'Your are logged in as: '.$data['username'];
 
 
@@ -97,16 +91,6 @@ function http_digest_parse($digest) {
                     '=[\'"]?([^\'",]+)@', $digest, $t);
     $data = array_combine($t[1], $t[2]);
     return (count($data)==7) ? $data : false;
-}
-
-/**
- * Sanitise a string for database use (from elgg)
- *
- * @param string $string The string to sanitise
- * @return string Sanitised string
- */
-function sanitize_string($string) {
-    return mysql_real_escape_string(trim($string));
 }
 
 ?>
