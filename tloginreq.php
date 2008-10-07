@@ -81,7 +81,10 @@ if ($row[0] != 'yes')
 
 // Valid username & password
 $userid = md5(uniqid(mt_rand(), true));
-
+if (!($result = mysql_query("UPDATE elggusers_entity
+    SET userid = '$userid' WHERE username = '$username'")))
+    die(mysql_errno().': '.mysql_error);
+echo 'userid='.$userid.';';
 echo 'Your are logged in as: '.$data['username'];
 
 
