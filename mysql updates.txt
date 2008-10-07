@@ -1,0 +1,8 @@
+For user ID
+
+ALTER TABLE `elggusers_entity` ADD `userid` CHAR( 32 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '00000000000000000000000000000000';
+
+
+For nonce storage
+
+CREATE TABLE `twirl`.`nonce` (`valid` CHAR( 40 ) NOT NULL) ENGINE = MYISAM 
