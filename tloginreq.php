@@ -7,16 +7,7 @@
 #
 #	Process login request from client
 
-//      require_once(dirname(__FILE__)."/tfunclib.php");
-
-//      if (tuser_confirm("password")) {
-//              $clientid = md5(microtime());
-//              tuser_update("clientid", $clientid, False);
-//      }
-//      else $clientid = "00000000000000000000000000000000";
-//      echo $clientid;
-
-
+require_once(dirname(__FILE__)."/tfunclib.php");
 
 // Snippets taken from http://www.php.net/features.http-auth
 
@@ -32,6 +23,8 @@ if (empty($_SERVER['PHP_AUTH_DIGEST'])) {
     header('HTTP/1.1 401 Unauthorized');
     header('WWW-Authenticate: Digest realm="'.$realm.
         '",qop="auth",nonce="'.$nonce.'",opaque="'.md5($realm).'"');
+    if (!($result = mysql_query("INSERT INTO nonce VALUES('$nonce')")))
+        die(mysql_errno().': '.mysql_error);
     die('Sign in failed!');
 }
 
@@ -40,10 +33,21 @@ if (!($data = http_digest_parse($_SERVER['PHP_AUTH_DIGEST']))) {
     die('Not digest authentication!');
 }
 
+// Check for existance of valid nonce
+if (!($result = mysql_query("SELECT * FROM nonce
+    WHERE valid = '$nonce'")))
+    die("Invalid nonce!");
+
+// Delete valid nonce
+$clean_nonce = sanitize_string($data['nonce'], 40);
+mysql_query("DELETE FROM nonce WHERE valid = '$clean_nonce'");
+
 // Check nonce freshness to be less than 1 minutes
-if (hexdec(substr($data['nonce'], -8)) < (time()-60)) {
+if (hexdec(substr($nonce, -8)) < (time()-60)) {
     // Regenerate nonce and resend authentication request
     $nonce = md5(uniqid(mt_rand(), true)).dechex(time());
+    if (!($result = mysql_query("INSERT INTO nonce VALUES('$nonce')")))
+        die(mysql_errno().': '.mysql_error);
     header('HTTP/1.1 401 Unauthorized');
     header('WWW-Authenticate: Digest realm="'.$realm.
         '",qop="auth",nonce="'.$nonce.'",opaque="'.md5($realm).',stale=TRUE"');
@@ -51,9 +55,6 @@ if (hexdec(substr($data['nonce'], -8)) < (time()-60)) {
 }
 
 // Generate the valid response
-require 'tdbopen.php';
-require 'tfunclib.php';
-
 $username = sanitize_string($data['username'], 32);
 if (!($result = mysql_query("SELECT * FROM elggusers_entity
     WHERE username = '$username'")))

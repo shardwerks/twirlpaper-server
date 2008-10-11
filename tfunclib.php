@@ -7,50 +7,52 @@
 #
 #	Library of commonly used functions
 
+$dbhost = 'localhost';
+$dbuser = 'tinterface';
+$dbpass = 'lemmein';
 
-	// Define constants
-	define("LENGTH_SHORT",32);	// Max length of: userid, imageid, nextchange
-	define("LENGTH_LONG",128);	// Max length of: imageinfo, imageurl,
-								//	imagetags, subscribedtags
+// Make a MySQL Connection
+mysql_connect($dbhost, $dbuser, $dbpass) or die(mysql_error());
 
-	// If login and second value valid, return True,
-	// otherwise assume user is guest and return False
-	function tuser_confirm($second = "") {
-		$isuser = False;
-		if (isset($_POST["login"]) && isset($_POST[$second])) {
-
-			$loginsafe = tsafe_mysql_short($_POST["login"]);
-
-			if ($user = mysql_query(
-					"SELECT * FROM elggusers WHERE username = '$loginsafe'")
-					or die(mysql_error())) {
-				$user = mysql_fetch_assoc($user);
-				if ($_POST[$second] === $user[$second])
-					$isuser = True;
-			}
-		}
-		return $isuser;
-	}
+$dbname = 'twirl';
+mysql_select_db($dbname) or die(mysql_error());
 
 
-	// Store second value into user records.  Return Boolean
-	// indicating success of MySQL update.
-	function tuser_update($key = "", $value = "", $long = False) {
-		if (isset($_POST["login"])) {
+// If login and second value valid, return True,
+// otherwise assume user is guest and return False
+function tuser_confirm() {
+    $isuser = False;
+    if (isset($_POST["username"]) && isset($_POST["userid"])) {
+        $loginsafe = sanitize_string($_POST["username"], 32);
+        if ($user = mysql_query(
+                "SELECT * FROM elggusers_entity WHERE username = '$loginsafe'")
+                or die(mysql_error())) {
+            $user = mysql_fetch_assoc($user);
+            if ($_POST["userid"] === $user["userid"])
+                $isuser = True;
+        }
+    }
+    return $isuser;
+}
 
-			$loginsafe = tsafe_mysql_short($_POST["login"]);
-			$keysafe = tsafe_mysql_short($key);
-			if ($long) $valuesafe = tsafe_mysql_long($value);
-			else $valuesafe = tsafe_mysql_short($value);
+// Store second value into user records.  Return Boolean
+// indicating success of MySQL update.
+function tuser_update($key = "", $value = "", $long = False) {
+    if (isset($_POST["login"])) {
 
-			if ($user = mysql_query(
-					"UPDATE elggusers SET $keysafe = '$valuesafe'
-					WHERE username = '$loginsafe'")
-					or die(mysql_error()))
-				return True;
-		}
-		return False;
-	}
+        $loginsafe = sanitize_string($_POST["login"], 32);
+        $keysafe = sanitize_string($key, 32);
+        if ($long) $valuesafe = sanitize_string($value, 128);
+        else $valuesafe = sanitize_string($value, 32);
+
+        if ($user = mysql_query(
+                "UPDATE elggusers SET $keysafe = '$valuesafe'
+                WHERE username = '$loginsafe'")
+                or die(mysql_error()))
+            return True;
+    }
+    return False;
+}
 
 /**
  * Sanitise a string for database use (adapted from elgg)
