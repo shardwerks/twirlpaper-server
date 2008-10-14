@@ -24,10 +24,14 @@
 require_once(dirname(__FILE__)."/tfunclib.php");
 
 if(tuser_confirm()) {
+    // Store config data
     print_r($_POST);
 }
-else
+else {
     echo "Not user";
+
+    // If no guest userid, generate and save
+}
 
 // Save metadata to log
 

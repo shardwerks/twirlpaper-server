@@ -25,18 +25,18 @@ if (empty($_SERVER['PHP_AUTH_DIGEST'])) {
         '",qop="auth",nonce="'.$nonce.'",opaque="'.md5($realm).'"');
     if (!($result = mysql_query("INSERT INTO nonce VALUES('$nonce')")))
         die(mysql_errno().': '.mysql_error);
-    die('Sign in failed!');
+    die('msg=Sign in failed!'.chr(13).chr(10));
 }
 
 // Analyze the PHP_AUTH_DIGEST variable
 if (!($data = http_digest_parse($_SERVER['PHP_AUTH_DIGEST']))) {
-    die('Not digest authentication!');
+    die('msg=Not digest authentication!'.chr(13).chr(10));
 }
 
 // Check for existance of valid nonce
 if (!($result = mysql_query("SELECT * FROM nonce
     WHERE valid = '$nonce'")))
-    die("Invalid nonce!");
+    die('msg=Invalid nonce!'.chr(13).chr(10));
 
 // Delete valid nonce
 $clean_nonce = sanitize_string($data['nonce'], 40);
@@ -51,7 +51,7 @@ if (hexdec(substr($nonce, -8)) < (time()-60)) {
     header('HTTP/1.1 401 Unauthorized');
     header('WWW-Authenticate: Digest realm="'.$realm.
         '",qop="auth",nonce="'.$nonce.'",opaque="'.md5($realm).',stale=TRUE"');
-    die('Timed out!');
+    die('msg=Timed out!'.chr(13).chr(10));
 }
 
 // Generate the valid response
@@ -68,7 +68,7 @@ $valid_response = md5($HA1.':'.$data['nonce'].':'.$data['nc'].':'.
     $data['cnonce'].':'.$data['qop'].':'.$HA2);
 
 if ($data['response'] != $valid_response)
-    die('Wrong Credentials!');
+    die('msg=Wrong Credentials!'.chr(13).chr(10));
 
 // Check if account has been enabled through email verification
 if (!($result = mysql_query("SELECT enabled FROM elggentities
@@ -78,15 +78,15 @@ if (!($result = mysql_query("SELECT enabled FROM elggentities
 $row = mysql_fetch_row($result);
 
 if ($row[0] != 'yes')
-    die('Account not enabled!');
+    die('msg=Account not enabled!'.chr(13).chr(10));
 
 // Valid username & password
 $userid = md5(uniqid(mt_rand(), true));
 if (!($result = mysql_query("UPDATE elggusers_entity
     SET userid = '$userid' WHERE username = '$username'")))
     die(mysql_errno().': '.mysql_error);
-echo 'userid='.$userid.';';
-echo 'Your are logged in as: '.$data['username'];
+echo 'userid='.$userid.chr(13).chr(10);
+echo 'msg=Your are logged in as: '.$data['username'].chr(13).chr(10);
 
 
 // Function to parse the http auth header
