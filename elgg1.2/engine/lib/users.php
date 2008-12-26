@@ -988,9 +988,17 @@
 	 * @param ElggUser $user The user this is being generated for.
 	 * @param string $password Password in clear text
 	 */
+    ## Changed salting method from random salt to username and realm.  This
+    ## way the hash can be regenerated at the client by hashing the
+    ## password with the realm, thus making digest authentication possible.
+    ##
+    ## Security needs to be changed in client-side web code so that password
+    ## is hashed with MD5 so it's not transmitted in cleartext.  Javascript is
+    ## already required for elgg, therefore can use javascript MD5 code.
 	function generate_user_password(ElggUser $user, $password)
 	{
-		return md5($password . $user->salt);
+		/* return md5($password . $user->salt); */
+        return md5($password . $user->username . 'Restricted@twirlpaper.com');
 	}
 	
 	/**
