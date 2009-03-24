@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 2.11.7
+-- version 2.11.9.2
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 07, 2008 at 04:20 PM
--- Server version: 5.0.51
+-- Generation Time: Mar 23, 2009 at 07:17 PM
+-- Server version: 5.0.67
 -- PHP Version: 5.2.6
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -143,7 +143,8 @@ INSERT INTO `elggdatalists` (`name`, `value`) VALUES
 ('path', 'C:/xampp/htdocs/twirlpaper/'),
 ('dataroot', 'C:/xampp/htdocs/twirldata/'),
 ('default_site', '1'),
-('admin_registered', '1');
+('admin_registered', '1'),
+('widget_run_once', '1229401159');
 
 -- --------------------------------------------------------
 
@@ -209,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `elggentity_subtypes` (
   `class` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `type` (`type`,`subtype`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `elggentity_subtypes`
@@ -217,7 +218,8 @@ CREATE TABLE IF NOT EXISTS `elggentity_subtypes` (
 
 INSERT INTO `elggentity_subtypes` (`id`, `type`, `subtype`, `class`) VALUES
 (1, 'object', 'file', 'ElggFile'),
-(2, 'object', 'plugin', 'ElggPlugin');
+(2, 'object', 'plugin', 'ElggPlugin'),
+(3, 'object', 'widget', 'ElggWidget');
 
 -- --------------------------------------------------------
 
@@ -615,7 +617,7 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_history_table` (
   PRIMARY KEY  (`id`),
   KEY `idx_bug_history_bug_id` (`bug_id`),
   KEY `idx_history_user_id` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=82 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=85 ;
 
 --
 -- Dumping data for table `mantis_bug_history_table`
@@ -702,7 +704,10 @@ INSERT INTO `mantis_bug_history_table` (`id`, `user_id`, `bug_id`, `date_modifie
 (78, 2, 15, '2008-10-18 16:44:07', '', '0000012', '', 2),
 (79, 2, 15, '2008-10-18 16:44:07', 'status', '10', '80', 0),
 (80, 2, 15, '2008-10-18 16:44:07', 'resolution', '10', '20', 0),
-(81, 2, 15, '2008-10-18 16:44:07', 'handler_id', '0', '2', 0);
+(81, 2, 15, '2008-10-18 16:44:07', 'handler_id', '0', '2', 0),
+(82, 2, 17, '2008-12-27 13:11:23', '', '', '', 7),
+(83, 2, 19, '2008-12-27 13:15:26', '', '', '', 1),
+(84, 2, 20, '2009-01-03 12:21:42', '', '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -782,7 +787,7 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_table` (
   KEY `idx_bug_fixed_in_version` (`fixed_in_version`),
   KEY `idx_bug_status` (`status`),
   KEY `idx_project` (`project_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `mantis_bug_table`
@@ -805,8 +810,10 @@ INSERT INTO `mantis_bug_table` (`id`, `project_id`, `reporter_id`, `handler_id`,
 (14, 1, 2, 0, 0, 30, 50, 10, 10, 10, 10, 'Client', '2008-10-13 17:00:19', '2008-10-13 17:03:40', 10, 14, '', '', '', '', '', '', 0, 10, 'Stop wallpaper changes when taskbar icon popup menu open', 0, 0, ''),
 (15, 1, 2, 2, 0, 30, 60, 10, 80, 20, 10, 'Client', '2008-10-14 09:04:06', '2008-10-18 16:44:07', 10, 15, '', '', '', '', '', '', 0, 10, 'Check response if client cannot connect to server', 0, 0, ''),
 (16, 1, 2, 0, 0, 30, 10, 100, 10, 10, 10, 'Client', '2008-10-18 12:07:05', '2008-10-18 15:15:44', 10, 16, '', '', '', '', '', '', 0, 10, 'Automatically translate text based on operating system locale', 0, 0, ''),
-(17, 1, 2, 0, 0, 30, 10, 100, 10, 10, 10, 'Client/Server', '2008-10-18 15:17:21', '2008-10-18 15:17:21', 10, 17, '', '', '', '', '', '', 0, 10, 'Display info returned from server in popup message', 0, 0, ''),
-(18, 1, 2, 0, 0, 30, 50, 10, 10, 10, 10, 'Client/Server', '2008-10-18 16:36:18', '2008-10-18 16:36:18', 10, 18, '', '', '', '', '', '', 0, 10, 'Images with %20 or space in filename not transmitted properly', 0, 0, '');
+(17, 1, 2, 0, 0, 30, 10, 100, 10, 10, 10, 'Client/Server', '2008-10-18 15:17:21', '2008-12-27 13:11:23', 10, 17, '', '', '', '', '', '', 0, 10, 'Display info returned from server in popup message', 0, 0, ''),
+(18, 1, 2, 0, 0, 30, 50, 10, 10, 10, 10, 'Client/Server', '2008-10-18 16:36:18', '2008-10-18 16:36:18', 10, 18, '', '', '', '', '', '', 0, 10, 'Images with %20 or space in filename not transmitted properly', 0, 0, ''),
+(19, 1, 2, 0, 0, 30, 50, 10, 10, 10, 10, 'Client', '2008-12-27 13:15:26', '2008-12-27 13:15:26', 10, 19, '', '', '', '', '', '', 0, 10, 'Image request should be repeated twice if downloaded image cannot be displayed', 0, 0, ''),
+(20, 1, 2, 0, 0, 30, 60, 10, 10, 10, 10, 'Server', '2009-01-03 12:21:42', '2009-01-03 12:21:42', 10, 20, '', '', '', '', '', '', 0, 10, 'If login request fails, image requests also fail', 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -839,7 +846,7 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_text_table` (
   `steps_to_reproduce` longtext NOT NULL,
   `additional_information` longtext NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `mantis_bug_text_table`
@@ -862,8 +869,10 @@ INSERT INTO `mantis_bug_text_table` (`id`, `description`, `steps_to_reproduce`, 
 (14, 'If wallpaper changes while menu open, updates to values could be applied to wrong image.  Storing the image ID when the popup opens can avoid this issue, but is inelegant.', '', 'From [wxpython-users]:\r\n\r\nI had a similar problem and managed to get it to work by using a flag. I \r\ndid something like this from the event handler inside my class:\r\n \r\nself.popup_is_shown = True\r\nself.PopupMenu(my_menu)\r\nmy_menu.Destroy()\r\nself.popup_is_shown = False\r\n \r\n''self'' refers to your class that must inherit from something that has \r\nthe function PopupMenu.'),
 (15, 'Client should not hang.  Perhaps client can resend request.', '', 'No notification to user that connection has failed.  Sign in displays last state, and pressing OK does nothing if there are changes.'),
 (16, 'Have all text be localized\r\nhttp://www.python.org/doc/2.5.2/lib/i18n.html', '', 'Can get some translations from Launchpad projects.  A starting point could be:\r\nhttps://translations.launchpad.net/elgg/trunk/+pots/elgg'),
-(17, 'Use server reply to send messages to user such as new version available.', '', ''),
-(18, 'These filenames would fail to be transmitted:\r\ngoing%20home.jpg\r\nBlatt 1 1024.jpg', '', '');
+(17, 'Use server reply to send messages to user such as new version available.', '', 'Messages include:\r\n1. Cannot connect to internet\r\n2. Cannot connect to server\r\n3. New version available\r\n'),
+(18, 'These filenames would fail to be transmitted:\r\ngoing%20home.jpg\r\nBlatt 1 1024.jpg', '', ''),
+(19, 'Currently if downloaded image cannot be displayed, no extra action is taken after display fails, and client continues no differently than if display succeeded.  Proper action would be to attempt another request after failure.  If after two more attempts there is still display failures, then stop requests and perhaps report display failures to the user.', '', ''),
+(20, 'Image requests should default to guest user if login request fails', '', '');
 
 -- --------------------------------------------------------
 
@@ -1072,7 +1081,7 @@ CREATE TABLE IF NOT EXISTS `mantis_filters_table` (
 --
 
 INSERT INTO `mantis_filters_table` (`id`, `user_id`, `project_id`, `is_public`, `name`, `filter_string`) VALUES
-(1, 2, -1, 0, '', 'v8#a:40:{s:8:"_version";s:2:"v8";s:10:"_view_type";s:6:"simple";s:13:"show_category";a:1:{i:0;s:1:"0";}s:13:"show_severity";a:1:{i:0;i:0;}s:11:"show_status";a:1:{i:0;i:0;}s:8:"per_page";i:50;s:17:"highlight_changed";i:6;s:11:"reporter_id";a:1:{i:0;i:0;}s:10:"handler_id";a:1:{i:0;i:0;}s:10:"project_id";a:1:{i:0;i:-3;}s:4:"sort";s:6:"status";s:3:"dir";s:3:"ASC";s:11:"start_month";i:10;s:9:"start_day";i:1;s:10:"start_year";i:2008;s:9:"end_month";i:10;s:7:"end_day";i:4;s:8:"end_year";i:2008;s:6:"search";s:0:"";s:11:"hide_status";a:1:{i:0;i:-2;}s:16:"and_not_assigned";b:0;s:15:"show_resolution";a:1:{i:0;i:0;}s:10:"show_build";a:1:{i:0;s:1:"0";}s:12:"show_version";a:1:{i:0;s:1:"0";}s:17:"do_filter_by_date";b:0;s:16:"fixed_in_version";a:1:{i:0;s:1:"0";}s:14:"target_version";a:1:{i:0;s:1:"0";}s:13:"show_priority";a:1:{i:0;i:0;}s:12:"user_monitor";a:1:{i:0;i:0;}s:10:"view_state";i:0;s:13:"custom_fields";a:0:{}s:13:"sticky_issues";s:3:"off";s:17:"relationship_type";i:-1;s:16:"relationship_bug";i:0;s:12:"show_profile";a:1:{i:0;i:0;}s:8:"platform";a:1:{i:0;i:0;}s:2:"os";a:1:{i:0;i:0;}s:8:"os_build";a:1:{i:0;i:0;}s:10:"tag_string";s:0:"";s:10:"tag_select";i:0;}');
+(1, 2, -1, 0, '', 'v8#a:40:{s:8:"_version";s:2:"v8";s:10:"_view_type";s:6:"simple";s:13:"show_category";a:1:{i:0;s:1:"0";}s:13:"show_severity";a:1:{i:0;i:0;}s:11:"show_status";a:1:{i:0;i:0;}s:8:"per_page";i:50;s:17:"highlight_changed";i:6;s:11:"reporter_id";a:1:{i:0;i:0;}s:10:"handler_id";a:1:{i:0;i:0;}s:10:"project_id";a:1:{i:0;i:-3;}s:4:"sort";s:6:"status";s:3:"dir";s:3:"ASC";s:11:"start_month";i:12;s:9:"start_day";i:1;s:10:"start_year";i:2008;s:9:"end_month";i:12;s:7:"end_day";i:10;s:8:"end_year";i:2008;s:6:"search";s:0:"";s:11:"hide_status";a:1:{i:0;i:-2;}s:16:"and_not_assigned";b:0;s:15:"show_resolution";a:1:{i:0;i:0;}s:10:"show_build";a:1:{i:0;s:1:"0";}s:12:"show_version";a:1:{i:0;s:1:"0";}s:17:"do_filter_by_date";b:0;s:16:"fixed_in_version";a:1:{i:0;s:1:"0";}s:14:"target_version";a:1:{i:0;s:1:"0";}s:13:"show_priority";a:1:{i:0;i:0;}s:12:"user_monitor";a:1:{i:0;i:0;}s:10:"view_state";i:0;s:13:"custom_fields";a:0:{}s:13:"sticky_issues";s:3:"off";s:17:"relationship_type";i:-1;s:16:"relationship_bug";i:0;s:12:"show_profile";a:1:{i:0;i:0;}s:8:"platform";a:1:{i:0;i:0;}s:2:"os";a:1:{i:0;i:0;}s:8:"os_build";a:1:{i:0;i:0;}s:10:"tag_string";s:0:"";s:10:"tag_select";i:0;}');
 
 -- --------------------------------------------------------
 
@@ -1293,14 +1302,14 @@ CREATE TABLE IF NOT EXISTS `mantis_tokens_table` (
   `value` longtext NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `idx_typeowner` (`type`,`owner`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
 -- Dumping data for table `mantis_tokens_table`
 --
 
 INSERT INTO `mantis_tokens_table` (`id`, `owner`, `type`, `timestamp`, `expiry`, `value`) VALUES
-(16, 2, 4, '2008-11-08 00:30:02', '2008-11-08 00:35:02', '1');
+(19, 2, 4, '2009-03-23 18:53:46', '2009-03-23 18:58:46', '1');
 
 -- --------------------------------------------------------
 
@@ -1421,4 +1430,4 @@ CREATE TABLE IF NOT EXISTS `mantis_user_table` (
 --
 
 INSERT INTO `mantis_user_table` (`id`, `username`, `realname`, `email`, `password`, `date_created`, `last_visit`, `enabled`, `protected`, `access_level`, `login_count`, `lost_password_request_count`, `failed_login_count`, `cookie_string`) VALUES
-(2, 'shard', '', 'shard@ugcs.caltech.edu', '3541c75fd24df42fbb68e549b16dfa90', '2008-09-26 21:15:34', '2008-11-08 00:31:29', 1, 0, 90, 6, 0, 0, '43dbddd0923d23170d62cacaa787da02c5092d8637b04512275757510e32a3e2');
+(2, 'shard', '', 'shard@ugcs.caltech.edu', '3541c75fd24df42fbb68e549b16dfa90', '2008-09-26 21:15:34', '2009-03-23 18:53:47', 1, 0, 90, 8, 0, 0, '43dbddd0923d23170d62cacaa787da02c5092d8637b04512275757510e32a3e2');
