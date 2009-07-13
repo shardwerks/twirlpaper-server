@@ -9,11 +9,11 @@
 ##  as published by the Free Software Foundation.
 ##  
 ##  ********************************************
-##  Coppermine version: 1.4.25
+##  Coppermine version: 1.4.24
 ##  $HeadURL: https://coppermine.svn.sourceforge.net/svnroot/coppermine/trunk/cpg1.4.x/sql/schema.sql $
-##  $Revision: 5997 $
+##  $Revision: 5969 $
 ##  $Author: gaugau $
-##  $Date: 2009-05-26 08:43:24 +0200 (Di, 26 Mai 2009) $
+##  $Date: 2009-05-21 22:03:33 +0200 (Do, 21 Mai 2009) $
 ##  ********************************************
 
 #
@@ -201,11 +201,13 @@ CREATE TABLE CPG_users (
 #
 # Table structure for table `CPG_votes`
 #
+# *** Add in rating column for slope one calculations
 
 CREATE TABLE CPG_votes (
   pic_id mediumint(9) NOT NULL default '0',
   user_md5_id varchar(32) NOT NULL default '',
   vote_time int(11) NOT NULL default '0',
+  `rating` smallint(6) NOT NULL default '0',
   PRIMARY KEY  (pic_id,user_md5_id)
 ) TYPE=MyISAM COMMENT='Stores votes for individual pics';
 #---------------------------------------------------------
