@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="{LANG_DIR}">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={CHARSET}" />
+<link rel="start" href="index.php" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="search" href="search.php" />
+<title>{TITLE}</title>
+{META}
+<link href="themes/2bornot2b/style.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body>
+{CUSTOM_HEADER}
+<table border="0" cellspacing="0" cellpadding="0" width="98%">
+    <tr>
+        <td>
+            <img src="themes/2bornot2b/images/pencil-sm.jpg" width="197" height="148" border="0" alt="" />
+        </td>
+        <td>
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                <tr>
+                    <td>
+                        <h1 class="header">{GAL_NAME}</h1>
+                    </td>
+                    <td rowspan="2">
+                        <img src="images/spacer.gif" width="1" height="148" border="0" alt="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td id="menu" valign="bottom">
+                        {SYS_MENU}{SUB_MENU}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<div id="admin_menu" >
+    {ADMIN_MENU}
+</div>
+<div id="content">
+    <div class="innerdiv">
+        {GALLERY}
+    </div>
+</div>
+
+<div align="center">
+    {LANGUAGE_SELECT_FLAGS}
+    <br />
+    {THEME_SELECT_LIST}
+    {LANGUAGE_SELECT_LIST}
+</div>
+<br />
+{CUSTOM_FOOTER}{VANITY}
+</body>
+</html>
