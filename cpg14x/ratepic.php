@@ -32,14 +32,14 @@ $rate = max($rate, 0);
 
 // If user does not accept script's cookies, we don't accept the vote
 if (!isset($_COOKIE[$CONFIG['cookie_name'] . '_data'])) {
-    header('Location: displayimage.php?pos=' . (- $pic));
-    exit;
+	header('Location: displayimage.php?pos=' . (- $pic));
+	exit;
 }
 
 // If referer is not displayimage.php we don't accept the vote
 if (!eregi("displayimage",$_SERVER["HTTP_REFERER"])){
-    header('Location: displayimage.php?pos=' . (- $pic));
-    exit;
+	header('Location: displayimage.php?pos=' . (- $pic));
+	exit;
 }
 
 
@@ -52,16 +52,17 @@ mysql_free_result($result);
 if (!USER_CAN_RATE_PICTURES || $row['votes_allowed'] == 'NO') cpg_die(ERROR, $lang_errors['perm_denied'], __FILE__, __LINE__);
 // Clean votes older votes
 // *** Remove function since keeping all votes is needed for slope one
-// *** $curr_time = time();
+$curr_time = time();
 // *** $clean_before = $curr_time - $CONFIG['keep_votes_time'] * 86400;
 // *** $sql = "DELETE " . "FROM {$CONFIG['TABLE_VOTES']} " . "WHERE vote_time < $clean_before";
 // *** $result = cpg_db_query($sql);
 // Check if user already rated this picture
-// *** Function removed, user should be able to re-rate pics.  Instead, old rating is deleted.
+// *** Function removed, user should be able to re-rate pics.  Instead, old rating is updated.
 $user_md5_id = USER_ID ? md5(USER_ID) : $USER['ID'];
-// *** $sql = "SELECT * " . "FROM {$CONFIG['TABLE_VOTES']} " . "WHERE pic_id = '$pic' AND user_md5_id = '$user_md5_id'";
-$sql = "DELETE " . "FROM {$CONFIG['TABLE_VOTES']} " . "WHERE pic_id = '$pic' AND user_id = '$user_id'";
-$result = cpg_db_query($sql);
+$sql = "SELECT * " . "FROM {$CONFIG['TABLE_VOTES']} " . "WHERE pic_id = '$pic' AND user_md5_id = '$user_md5_id'";
+//$result = cpg_db_query($sql);
+$alreadyvoted = 0;
+if (mysql_num_rows(cpg_db_query($sql))) $alreadyvoted = 1;
 // *** if (mysql_num_rows($result)) cpg_die(ERROR, $lang_rate_pic_php['already_rated'], __FILE__, __LINE__);
 //Test for Self-Rating
 $user=USER_ID;
@@ -75,54 +76,48 @@ $result = cpg_db_query($sql);
 // Update the votes table
 // *** Add in rating data
 // *** $sql = "INSERT INTO {$CONFIG['TABLE_VOTES']} " . "VALUES ('$pic', '$user_md5_id', '$curr_time')";
-$sql = "INSERT INTO {$CONFIG['TABLE_VOTES']} " . "VALUES ('$pic', '$user_md5_id', '$curr_time', '$rate')";
-$result = cpg_db_query($sql);
+if ($alreadyvoted)
+	$sql = "UPDATE {$CONFIG['TABLE_VOTES']} SET vote_time = $curr_time, rating = $rate ".
+			"WHERE pic_id = $pic AND user_md5_id = '$user_md5_id'";
+else
+	$sql = "INSERT INTO {$CONFIG['TABLE_VOTES']} " .
+			"VALUES ('$pic', '$user_md5_id', '$curr_time', '$rate')";
+cpg_db_query($sql);
 
 
 // *** Update slope one table: code from Lemire/McGrath paper
 // This code assumes $itemID is set to that of 
 // the item that was just rated. 
 // Get all of the user's rating pairs
-$sql = "SELECT DISTINCT r.pic_id, r2.rating - r.rating 
-            as rating_difference
-            FROM {$CONFIG['TABLE_VOTES']} r, {$CONFIG['TABLE_VOTES']} r2
-            WHERE r.user_md5_id=$user AND 
-                    r2.pic_id=$pic AND 
-                    r2.user_md5_id=$user;";
-$db_result = cpg_db_query($sql);
-$num_rows = mysql_num_rows($db_result);
+$sql = "SELECT DISTINCT r.pic_id, r2.rating - r.rating as rating_difference " .
+		"FROM {$CONFIG['TABLE_VOTES']} r, {$CONFIG['TABLE_VOTES']} r2 " .
+		"WHERE r.user_md5_id = '$user_md5_id' AND r2.pic_id = '$pic' AND r2.user_md5_id = '$user_md5_id';";
+$result = cpg_db_query($sql);
 //For every one of the user's rating pairs, 
 //update the dev table
-while ($row = mysql_fetch_assoc($db_result)) {
-    $other_pic_id = $row["pic_id"];
-    $rating_difference = $row["rating_difference"];
-    //if the pair ($pic_id, $other_pic_id) is already in the dev table
-    //then we want to update 2 rows.
-    if (mysql_num_rows(cpg_db_query("SELECT itemID1 
-		FROM dev WHERE itemID1=$pic_id AND itemID2=$other_pic_id")) > 0)  {
-			$sql = "UPDATE slope1 SET count=count+1, 
-			sum=sum+$rating_difference WHERE itemID1=$pic_id 
-			AND itemID2=$other_pic_id";
+while ($row = mysql_fetch_assoc($result)) {
+	$other_pic = $row["pic_id"];
+	$rating_difference = $row["rating_difference"];
+	//We only want to update if the items are different				
+	if ($pic != $other_pic) {
+		//if the pair ($pic_id, $other_pic_id) is already in the dev table
+		//then we want to update 2 rows.
+		$sql = "SELECT pid1 FROM slope1 WHERE pid1 = '$pic' AND pid2 = '$other_pic';";
+		if (mysql_num_rows(cpg_db_query($sql)) > 0)  {
+			$sql = "UPDATE slope1 SET votes = votes + 1, sum = sum + $rating_difference " .
+					"WHERE pid1 = '$pic' AND pid2 = '$other_pic';";
 			cpg_db_query($sql);
-			//We only want to update if the items are different                
-			if ($itemID != $other_itemID) {
-				$sql = "UPDATE dev SET count=count+1, 
-				sum=sum-$rating_difference 
-				WHERE (itemID1=$other_pic_id AND itemID2=$pic_id)";
-				cpg_db_query($sql);
+			$sql = "UPDATE slope1 SET votes = votes + 1, sum = sum - $rating_difference " .
+					"WHERE (pid1 = '$other_pic' AND pid2 = '$pic');";
+			cpg_db_query($sql);
 			}
-    }
-    else { //we want to insert 2 rows into the dev table
-        $sql = "INSERT INTO slope1 VALUES ($pic_id, $other_pic_id,
-        1, $rating_difference)";
-		cpg_db_query($sql); 
-		//We only want to insert if the items are different       
-        if ($itemID != $other_itemID) {         
-            $sql = "INSERT INTO dev VALUES ($other_pic_id, 
-			$pic_id, 1, -$rating_difference)";
-            cpg_db_query($sql);
-        }
-    }    
+		else { //we want to insert 2 rows into the dev table
+			$sql = "INSERT INTO slope1 VALUES ($pic, $other_pic, 1, $rating_difference)";
+			cpg_db_query($sql); 
+			$sql = "INSERT INTO slope1 VALUES ($other_pic, $pic, 1, -$rating_difference)";
+			cpg_db_query($sql);
+		}
+	}
 }
 
 
@@ -138,14 +133,14 @@ if ($CONFIG['vote_details']) {
 	$referer = addslashes(htmlentities($_SERVER['HTTP_REFERER']));
 	// Insert the record in database
 	$query = "INSERT INTO {$CONFIG['TABLE_VOTE_STATS']}
-	                 SET
-	                    pid = $pic,
-	                    rating = $rate,
-	                    Ip   = '$raw_ip',
-	                    sdate = '$time',
-	                    referer = '$referer',
-	                    browser = '$browser',
-	                    os = '$os'";
+					 SET
+						pid = $pic,
+						rating = $rate,
+						Ip   = '$raw_ip',
+						sdate = '$time',
+						referer = '$referer',
+						browser = '$browser',
+						os = '$os'";
 	cpg_db_query($query);
 }
 
