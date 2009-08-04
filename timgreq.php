@@ -22,42 +22,98 @@
 
 require_once(dirname(__FILE__)."/tfunclib.php");
 
-if (tuser_confirm()) {
-    // Store config data
-    //print_r($_POST);
+if ($loginsafe = tuser_confirm($TWIRLCONFIG['TABLE_USERS'])) {
+	// Parse and store config data
+	//print_r($_POST);
+	$percentnew = 20;
+	$ratedatleast = 3;
 
-    // Calculate image through MySQL query
-    $walls = scandir('JPG');
-    do $image = array_rand($walls);
-    while ($image < 2);
+	// Calculate image through MySQL query
+	if (mt_rand(0,100) < $percentnew)
+		// Choose unrated wallpaper
+		$result = predictbest($TWIRLCONFIG['TABLE_VOTES'],
+			$TWIRLCONFIG['TABLE_SLOPE1'], $loginsafe, 20);
+	else {
+		//Choose rated wallpaper
+		$sql = "SELECT user_id FROM {$TWIRLCONFIG['TABLE_USERS']}
+			WHERE user_name = '$loginsafe;'";
+		$result = mysql_fetch_assoc(tquery($sql));
+		$user_md5_id = md5($result['user_id']);
 
-    // Transmit image and config data
-    $imageinfo[0]='from noone0 in erewhon';
-    $imageinfo[1]='from noone1 in erewhon';
-    $imageinfo[2]='from noone2 in erewhon';
-    $imageinfo[3]='from noone3 in erewhon';
-    $imageurl[0]='http://www.google.com/search?as_q=zero';
-    $imageurl[1]='http://www.google.com/search?as_q=one';
-    $imageurl[2]='http://www.google.com/search?as_q=two';
-    $imageurl[3]='http://www.google.com/search?as_q=three';
-    $imagetags[0]='run0 jump0 skip0';
-    $imagetags[1]='run1 jump1 skip1';
-    $imagetags[2]='run2 jump2 skip2';
-    $imagetags[3]='run3 jump3 skip3';
-    $choice = rand(0,3);
-    echo 'imageid='.md5(rand()).chr(13).chr(10);
-    echo 'imagerating='.rand(1,5).chr(13).chr(10);
-    echo 'userrating='.rand(1,5).chr(13).chr(10);
-    echo 'imageinfo='.$imageinfo[$choice].chr(13).chr(10);
-    echo 'imageurl='.$imageurl[$choice].chr(13).chr(10);
-    echo 'imagetags='.$imagetags[$choice].chr(13).chr(10);
-    echo 'image=http://localhost/JPG/'.$walls[$image].chr(13).chr(10);
+		$sql = "SELECT pic_id FROM {$TWIRLCONFIG['TABLE_VOTES']}
+			WHERE user_md5_id = '$user_md5_id' AND rating > $ratedatleast;";
+		$result = tquery($sql);
+	}
+
+	$count = mysql_num_rows($result);
 }
 else {
-    echo "Not user";
-
-    // If no guest userid, generate and save
+	// If no userid, randomly choose a paper from a public gallery
+	$count = 0;
+	echo "msg=Not logged in for image request".chr(13).chr(10);
 }
 
+// If no recommendations available, randomly choose a paper from a public gallery
+if ($count < 1) {
+	$sql = "SELECT MAX(aid) FROM {$TWIRLCONFIG['TABLE_ALBUMS']};";
+	$result = mysql_fetch_assoc(tquery($sql));
+	$maxaid = $result['MAX(aid)'];
+	do {
+		$choice = mt_rand(1, $maxaid);
+		$sql = "SELECT * FROM {$TWIRLCONFIG['TABLE_ALBUMS']}
+			WHERE aid = $choice LIMIT 1;";
+		$result = mysql_fetch_assoc(tquery($sql));
+	} while ($result['visibility'] > 0);
+
+	$sql = "SELECT pid FROM {$TWIRLCONFIG['TABLE_PICTURES']} WHERE aid = $choice;";
+	$result = tquery($sql);
+
+	$count = mysql_num_rows($result);
+}
+
+// Randomly choose a paper from the pid list
+for ($i = mt_rand(1, $count); $i > 0; $i--)
+	$row = mysql_fetch_array($result);
+$sql = "SELECT * FROM {$TWIRLCONFIG['TABLE_PICTURES']} WHERE pid = {$row[0]};";
+$row = mysql_fetch_assoc(tquery($sql));
+
+// Transmit image and config data
+$imagerating = intval(round($row['pic_rating'])/2000);
+if ($imagerating < 1) $imagerating = 1;
+
+$sql = "SELECT rating FROM {$TWIRLCONFIG['TABLE_VOTES']}
+	WHERE user_md5_id = '$user_md5_id' AND pic_id = {$row['pid']};";
+if (!($result = tquery($sql))) $userrating = 0;
+else {
+	$result = mysql_fetch_array($result);
+	if ($result[0] = '') $userrating = 0;
+	else $userrating = $result[0];
+}
+
+$imageurl = $TWIRLCONFIG['SITE_URL']."displayimage.php?pos=-$row[pid]";
+
+$imageloc = $TWIRLCONFIG['SITE_URL']."albums/".$row['filepath'].$row['filename'];
+
+echo 'imageid='.$row['pid'].chr(13).chr(10);
+echo 'imagerating='.$imagerating.chr(13).chr(10);
+echo 'userrating='.$userrating.chr(13).chr(10);
+echo 'imageinfo='.$row['caption'].' '.chr(13).chr(10);
+echo 'imageurl='.$imageurl.chr(13).chr(10);
+echo 'image='.$imageloc.chr(13).chr(10);
+
+
+
+// Return list of pid of best predicted papers
+function predictbest($TWIRLVOTES, $TWIRLSLOPE1, $userID, $n) {
+	$sql = "SELECT s1.pid1 as 'item' ,
+			sum(s1.sum + s1.votes * v.rating)/sum(s1.votes) as 'avgvote'
+			FROM $TWIRLVOTES v , $TWIRLSLOPE1 s1
+			WHERE v.user_md5_id = '$userID'
+			AND s1.pid1 <> v.pic_id
+			AND s1.pid2 = v.pic_id
+			GROUP BY s1.pid1 ORDER BY avgvote DESC LIMIT $n;" ;
+	$result = tquery($sql);
+	return $result;
+}
 
 ?>

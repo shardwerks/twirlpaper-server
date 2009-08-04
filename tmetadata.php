@@ -23,12 +23,12 @@
 
 require_once(dirname(__FILE__)."/tfunclib.php");
 
-if(tuser_confirm()) {
+if($loginsafe = tuser_confirm($TWIRLCONFIG['TABLE_USERS'])) {
     // Store config data
     print_r($_POST);
 }
 else {
-    echo "Not user";
+    echo "msg=Not logged in for metadata";
 
     // If no guest userid, generate and save
 }
