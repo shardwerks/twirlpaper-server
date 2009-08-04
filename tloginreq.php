@@ -73,6 +73,7 @@ $userhash = md5(uniqid(mt_rand(), true));
 $sql = "UPDATE {$TWIRLCONFIG['TABLE_USERS']}
 	SET userhash = '$userhash' WHERE user_name = '$usernamesafe';";
 tquery($sql);
+echo 'userhash='.$userhash.chr(13).chr(10);
 echo 'msg=Your are logged in as: '.$usernamesafe.chr(13).chr(10);
 
 
