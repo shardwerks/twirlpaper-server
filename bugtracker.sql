@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 13, 2009 at 04:45 PM
+-- Generation Time: Aug 15, 2009 at 04:05 AM
 -- Server version: 5.1.33
 -- PHP Version: 5.2.9
 
@@ -25,6 +25,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `mantis_bugnote_table`
 --
 
+DROP TABLE IF EXISTS `mantis_bugnote_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bugnote_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `bug_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -39,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `mantis_bugnote_table` (
   PRIMARY KEY (`id`),
   KEY `idx_bug` (`bug_id`),
   KEY `idx_last_mod` (`last_modified`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `mantis_bugnote_table`
@@ -59,7 +60,8 @@ INSERT INTO `mantis_bugnote_table` (`id`, `bug_id`, `reporter_id`, `bugnote_text
 (12, 15, 2, 12, 10, '2008-10-18 16:44:07', '2008-10-18 16:44:07', 0, '', 0),
 (13, 11, 2, 13, 10, '2009-04-20 03:58:50', '2009-04-20 12:07:07', 0, '', 0),
 (15, 21, 2, 15, 10, '2009-07-10 10:32:10', '2009-07-10 10:32:10', 0, '', 0),
-(16, 10, 2, 16, 10, '2009-07-10 11:54:35', '2009-07-10 11:54:35', 0, '', 0);
+(16, 10, 2, 16, 10, '2009-07-10 11:54:35', '2009-07-10 11:54:35', 0, '', 0),
+(17, 18, 2, 17, 10, '2009-08-04 01:11:35', '2009-08-04 01:11:35', 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -67,11 +69,12 @@ INSERT INTO `mantis_bugnote_table` (`id`, `bug_id`, `reporter_id`, `bugnote_text
 -- Table structure for table `mantis_bugnote_text_table`
 --
 
+DROP TABLE IF EXISTS `mantis_bugnote_text_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bugnote_text_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `note` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `mantis_bugnote_text_table`
@@ -91,7 +94,8 @@ INSERT INTO `mantis_bugnote_text_table` (`id`, `note`) VALUES
 (12, 'Client pops up error message and closes frame.'),
 (13, 'http://stackoverflow.com/questions/638124/cron-like-system-for-windows\r\n\r\n1. Write a PHP file which performs the task of import, export or whatever interaction you want to perform, and make sure you can execute the PHP from command line, similar to >php phptaskname.php\r\n2. Schedule the task in Windows Task Scheduler, may be you want to create a .bat file with the command line as in point 1 and Task Scheduler can call your batch file at the scheduled time.\r\nhttp://www.sitepoint.com/print/php-command-line-1/\n\n'),
 (15, 'Research has found Coppermine to be a good replacement. View attached file for details.'),
-(16, 'Coppermine has this issue as well');
+(16, 'Coppermine has this issue as well'),
+(17, 'Use urllib.quote in client to translate space to %20, this properly accesses the file on the server.  Server stores files with spaces in filenames with no problems.');
 
 -- --------------------------------------------------------
 
@@ -99,6 +103,7 @@ INSERT INTO `mantis_bugnote_text_table` (`id`, `note`) VALUES
 -- Table structure for table `mantis_bug_file_table`
 --
 
+DROP TABLE IF EXISTS `mantis_bug_file_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bug_file_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `bug_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -129,6 +134,7 @@ INSERT INTO `mantis_bug_file_table` (`id`, `bug_id`, `title`, `description`, `di
 -- Table structure for table `mantis_bug_history_table`
 --
 
+DROP TABLE IF EXISTS `mantis_bug_history_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bug_history_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -141,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_history_table` (
   PRIMARY KEY (`id`),
   KEY `idx_bug_history_bug_id` (`bug_id`),
   KEY `idx_history_user_id` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=100 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=107 ;
 
 --
 -- Dumping data for table `mantis_bug_history_table`
@@ -246,7 +252,14 @@ INSERT INTO `mantis_bug_history_table` (`id`, `user_id`, `bug_id`, `date_modifie
 (96, 2, 10, '2009-07-10 11:54:35', '', '0000016', '', 2),
 (97, 2, 10, '2009-07-10 11:54:35', 'status', '90', '20', 0),
 (98, 2, 10, '2009-07-10 11:54:35', 'resolution', '20', '30', 0),
-(99, 2, 10, '2009-07-13 16:44:33', 'handler_id', '2', '0', 0);
+(99, 2, 10, '2009-07-13 16:44:33', 'handler_id', '2', '0', 0),
+(100, 2, 22, '2009-08-03 11:52:02', '', '', '', 1),
+(101, 2, 23, '2009-08-03 12:02:34', '', '', '', 1),
+(102, 2, 24, '2009-08-04 01:08:50', '', '', '', 1),
+(103, 2, 18, '2009-08-04 01:11:35', '', '0000017', '', 2),
+(104, 2, 18, '2009-08-04 01:11:35', 'status', '10', '80', 0),
+(105, 2, 18, '2009-08-04 01:11:35', 'resolution', '10', '20', 0),
+(106, 2, 18, '2009-08-04 01:11:35', 'handler_id', '0', '2', 0);
 
 -- --------------------------------------------------------
 
@@ -254,6 +267,7 @@ INSERT INTO `mantis_bug_history_table` (`id`, `user_id`, `bug_id`, `date_modifie
 -- Table structure for table `mantis_bug_monitor_table`
 --
 
+DROP TABLE IF EXISTS `mantis_bug_monitor_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bug_monitor_table` (
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `bug_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -273,6 +287,7 @@ INSERT INTO `mantis_bug_monitor_table` (`user_id`, `bug_id`) VALUES
 -- Table structure for table `mantis_bug_relationship_table`
 --
 
+DROP TABLE IF EXISTS `mantis_bug_relationship_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bug_relationship_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `source_bug_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -294,6 +309,7 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_relationship_table` (
 -- Table structure for table `mantis_bug_table`
 --
 
+DROP TABLE IF EXISTS `mantis_bug_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bug_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `project_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -328,7 +344,7 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_table` (
   KEY `idx_bug_fixed_in_version` (`fixed_in_version`),
   KEY `idx_bug_status` (`status`),
   KEY `idx_project` (`project_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
 
 --
 -- Dumping data for table `mantis_bug_table`
@@ -352,10 +368,13 @@ INSERT INTO `mantis_bug_table` (`id`, `project_id`, `reporter_id`, `handler_id`,
 (15, 1, 2, 2, 0, 30, 60, 10, 80, 20, 10, 'Client', '2008-10-14 09:04:06', '2008-10-18 16:44:07', 10, 15, '', '', '', '', '', '', 0, 10, 'Check response if client cannot connect to server', 0, 0, ''),
 (16, 1, 2, 0, 0, 30, 10, 100, 10, 10, 10, 'Client', '2008-10-18 12:07:05', '2008-10-18 15:15:44', 10, 16, '', '', '', '', '', '', 0, 10, 'Automatically translate text based on operating system locale', 0, 0, ''),
 (17, 1, 2, 0, 0, 30, 10, 100, 10, 10, 10, 'Client/Server', '2008-10-18 15:17:21', '2008-12-27 13:11:23', 10, 17, '', '', '', '', '', '', 0, 10, 'Display info returned from server in popup message', 0, 0, ''),
-(18, 1, 2, 0, 0, 30, 50, 10, 10, 10, 10, 'Client/Server', '2008-10-18 16:36:18', '2008-10-18 16:36:18', 10, 18, '', '', '', '', '', '', 0, 10, 'Images with %20 or space in filename not transmitted properly', 0, 0, ''),
+(18, 1, 2, 2, 0, 30, 50, 10, 80, 20, 10, 'Client/Server', '2008-10-18 16:36:18', '2009-08-04 01:11:35', 10, 18, '', '', '', '', '', '', 0, 10, 'Images with %20 or space in filename not transmitted properly', 0, 0, ''),
 (19, 1, 2, 0, 0, 30, 50, 10, 10, 10, 10, 'Client', '2008-12-27 13:15:26', '2008-12-27 13:15:26', 10, 19, '', '', '', '', '', '', 0, 10, 'Image request should be repeated twice if downloaded image cannot be displayed', 0, 0, ''),
 (20, 1, 2, 0, 0, 30, 60, 10, 10, 10, 10, 'Server', '2009-01-03 12:21:42', '2009-01-03 12:21:42', 10, 20, '', '', '', '', '', '', 0, 10, 'If login request fails, image requests also fail', 0, 0, ''),
-(21, 1, 2, 2, 0, 30, 60, 100, 80, 20, 10, 'Server', '2009-07-10 10:23:53', '2009-07-10 10:32:10', 10, 21, '', '', '', '', '', '', 0, 10, 'Elgg has a content directory structure that''s not suitable for file retrieval', 0, 0, '');
+(21, 1, 2, 2, 0, 30, 60, 100, 80, 20, 10, 'Server', '2009-07-10 10:23:53', '2009-07-10 10:32:10', 10, 21, '', '', '', '', '', '', 0, 10, 'Elgg has a content directory structure that''s not suitable for file retrieval', 0, 0, ''),
+(22, 1, 2, 0, 0, 30, 50, 10, 10, 10, 10, 'Server', '2009-08-03 11:52:02', '2009-08-03 11:52:02', 10, 22, '', '', '', '', '', '', 0, 10, 'Album password stored in cleartext', 0, 0, ''),
+(23, 1, 2, 0, 0, 30, 50, 10, 10, 10, 10, 'Server', '2009-08-03 12:02:34', '2009-08-03 12:02:34', 10, 23, '', '', '', '', '', '', 0, 10, 'Entering an album password restricts viewers to self only', 0, 0, ''),
+(24, 1, 2, 0, 0, 30, 10, 10, 10, 10, 10, 'Server', '2009-08-04 01:08:50', '2009-08-04 01:08:50', 10, 24, '', '', '', '', '', '', 0, 10, 'Move userhash to its own table and allow multiple entries', 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -363,6 +382,7 @@ INSERT INTO `mantis_bug_table` (`id`, `project_id`, `reporter_id`, `handler_id`,
 -- Table structure for table `mantis_bug_tag_table`
 --
 
+DROP TABLE IF EXISTS `mantis_bug_tag_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bug_tag_table` (
   `bug_id` int(10) unsigned NOT NULL DEFAULT '0',
   `tag_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -382,13 +402,14 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_tag_table` (
 -- Table structure for table `mantis_bug_text_table`
 --
 
+DROP TABLE IF EXISTS `mantis_bug_text_table`;
 CREATE TABLE IF NOT EXISTS `mantis_bug_text_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `description` longtext NOT NULL,
   `steps_to_reproduce` longtext NOT NULL,
   `additional_information` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
 
 --
 -- Dumping data for table `mantis_bug_text_table`
@@ -415,7 +436,10 @@ INSERT INTO `mantis_bug_text_table` (`id`, `description`, `steps_to_reproduce`, 
 (18, 'These filenames would fail to be transmitted:\r\ngoing%20home.jpg\r\nBlatt 1 1024.jpg', '', ''),
 (19, 'Currently if downloaded image cannot be displayed, no extra action is taken after display fails, and client continues no differently than if display succeeded.  Proper action would be to attempt another request after failure.  If after two more attempts there is still display failures, then stop requests and perhaps report display failures to the user.', '', ''),
 (20, 'Image requests should default to guest user if login request fails', '', ''),
-(21, 'Elgg stores uploaded content in a hash created by splitting each user''s name into separate characters and using the characters as a directory tree.  This added to the fact that elgg chokes on filenames with spaces makes it an unsuitable platform to be the server software.', '', '');
+(21, 'Elgg stores uploaded content in a hash created by splitting each user''s name into separate characters and using the characters as a directory tree.  This added to the fact that elgg chokes on filenames with spaces makes it an unsuitable platform to be the server software.', '', ''),
+(22, 'Look in cpg14x_albums', '', ''),
+(23, 'Expected behavior is that it can be set to registered only or everyone, and the password is required to view the album', '', ''),
+(24, 'Allowing multiple entries will allow login on multiple machines', '', '');
 
 -- --------------------------------------------------------
 
@@ -423,6 +447,7 @@ INSERT INTO `mantis_bug_text_table` (`id`, `description`, `steps_to_reproduce`, 
 -- Table structure for table `mantis_config_table`
 --
 
+DROP TABLE IF EXISTS `mantis_config_table`;
 CREATE TABLE IF NOT EXISTS `mantis_config_table` (
   `config_id` varchar(64) NOT NULL,
   `project_id` int(11) NOT NULL DEFAULT '0',
@@ -447,6 +472,7 @@ INSERT INTO `mantis_config_table` (`config_id`, `project_id`, `user_id`, `access
 -- Table structure for table `mantis_custom_field_project_table`
 --
 
+DROP TABLE IF EXISTS `mantis_custom_field_project_table`;
 CREATE TABLE IF NOT EXISTS `mantis_custom_field_project_table` (
   `field_id` int(11) NOT NULL DEFAULT '0',
   `project_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -465,6 +491,7 @@ CREATE TABLE IF NOT EXISTS `mantis_custom_field_project_table` (
 -- Table structure for table `mantis_custom_field_string_table`
 --
 
+DROP TABLE IF EXISTS `mantis_custom_field_string_table`;
 CREATE TABLE IF NOT EXISTS `mantis_custom_field_string_table` (
   `field_id` int(11) NOT NULL DEFAULT '0',
   `bug_id` int(11) NOT NULL DEFAULT '0',
@@ -484,6 +511,7 @@ CREATE TABLE IF NOT EXISTS `mantis_custom_field_string_table` (
 -- Table structure for table `mantis_custom_field_table`
 --
 
+DROP TABLE IF EXISTS `mantis_custom_field_table`;
 CREATE TABLE IF NOT EXISTS `mantis_custom_field_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '',
@@ -519,6 +547,7 @@ CREATE TABLE IF NOT EXISTS `mantis_custom_field_table` (
 -- Table structure for table `mantis_email_table`
 --
 
+DROP TABLE IF EXISTS `mantis_email_table`;
 CREATE TABLE IF NOT EXISTS `mantis_email_table` (
   `email_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(64) NOT NULL DEFAULT '',
@@ -541,6 +570,7 @@ CREATE TABLE IF NOT EXISTS `mantis_email_table` (
 -- Table structure for table `mantis_filters_table`
 --
 
+DROP TABLE IF EXISTS `mantis_filters_table`;
 CREATE TABLE IF NOT EXISTS `mantis_filters_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0',
@@ -564,6 +594,7 @@ INSERT INTO `mantis_filters_table` (`id`, `user_id`, `project_id`, `is_public`, 
 -- Table structure for table `mantis_news_table`
 --
 
+DROP TABLE IF EXISTS `mantis_news_table`;
 CREATE TABLE IF NOT EXISTS `mantis_news_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `project_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -588,6 +619,7 @@ CREATE TABLE IF NOT EXISTS `mantis_news_table` (
 -- Table structure for table `mantis_project_category_table`
 --
 
+DROP TABLE IF EXISTS `mantis_project_category_table`;
 CREATE TABLE IF NOT EXISTS `mantis_project_category_table` (
   `project_id` int(10) unsigned NOT NULL DEFAULT '0',
   `category` varchar(64) NOT NULL DEFAULT '',
@@ -610,6 +642,7 @@ INSERT INTO `mantis_project_category_table` (`project_id`, `category`, `user_id`
 -- Table structure for table `mantis_project_file_table`
 --
 
+DROP TABLE IF EXISTS `mantis_project_file_table`;
 CREATE TABLE IF NOT EXISTS `mantis_project_file_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `project_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -636,6 +669,7 @@ CREATE TABLE IF NOT EXISTS `mantis_project_file_table` (
 -- Table structure for table `mantis_project_hierarchy_table`
 --
 
+DROP TABLE IF EXISTS `mantis_project_hierarchy_table`;
 CREATE TABLE IF NOT EXISTS `mantis_project_hierarchy_table` (
   `child_id` int(10) unsigned NOT NULL,
   `parent_id` int(10) unsigned NOT NULL
@@ -652,6 +686,7 @@ CREATE TABLE IF NOT EXISTS `mantis_project_hierarchy_table` (
 -- Table structure for table `mantis_project_table`
 --
 
+DROP TABLE IF EXISTS `mantis_project_table`;
 CREATE TABLE IF NOT EXISTS `mantis_project_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL DEFAULT '',
@@ -680,6 +715,7 @@ INSERT INTO `mantis_project_table` (`id`, `name`, `status`, `enabled`, `view_sta
 -- Table structure for table `mantis_project_user_list_table`
 --
 
+DROP TABLE IF EXISTS `mantis_project_user_list_table`;
 CREATE TABLE IF NOT EXISTS `mantis_project_user_list_table` (
   `project_id` int(10) unsigned NOT NULL DEFAULT '0',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -699,6 +735,7 @@ CREATE TABLE IF NOT EXISTS `mantis_project_user_list_table` (
 -- Table structure for table `mantis_project_version_table`
 --
 
+DROP TABLE IF EXISTS `mantis_project_version_table`;
 CREATE TABLE IF NOT EXISTS `mantis_project_version_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -721,6 +758,7 @@ CREATE TABLE IF NOT EXISTS `mantis_project_version_table` (
 -- Table structure for table `mantis_sponsorship_table`
 --
 
+DROP TABLE IF EXISTS `mantis_sponsorship_table`;
 CREATE TABLE IF NOT EXISTS `mantis_sponsorship_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bug_id` int(11) NOT NULL DEFAULT '0',
@@ -747,6 +785,7 @@ CREATE TABLE IF NOT EXISTS `mantis_sponsorship_table` (
 -- Table structure for table `mantis_tag_table`
 --
 
+DROP TABLE IF EXISTS `mantis_tag_table`;
 CREATE TABLE IF NOT EXISTS `mantis_tag_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -768,6 +807,7 @@ CREATE TABLE IF NOT EXISTS `mantis_tag_table` (
 -- Table structure for table `mantis_tokens_table`
 --
 
+DROP TABLE IF EXISTS `mantis_tokens_table`;
 CREATE TABLE IF NOT EXISTS `mantis_tokens_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner` int(11) NOT NULL,
@@ -777,15 +817,14 @@ CREATE TABLE IF NOT EXISTS `mantis_tokens_table` (
   `value` longtext NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_typeowner` (`type`,`owner`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 --
 -- Dumping data for table `mantis_tokens_table`
 --
 
 INSERT INTO `mantis_tokens_table` (`id`, `owner`, `type`, `timestamp`, `expiry`, `value`) VALUES
-(26, 2, 3, '2009-07-13 16:44:26', '2009-07-14 16:44:35', '10'),
-(25, 2, 4, '2009-07-13 16:44:14', '2009-07-13 16:49:14', '1');
+(28, 2, 3, '2009-08-04 01:09:14', '2009-08-05 01:11:38', '18');
 
 -- --------------------------------------------------------
 
@@ -793,6 +832,7 @@ INSERT INTO `mantis_tokens_table` (`id`, `owner`, `type`, `timestamp`, `expiry`,
 -- Table structure for table `mantis_user_pref_table`
 --
 
+DROP TABLE IF EXISTS `mantis_user_pref_table`;
 CREATE TABLE IF NOT EXISTS `mantis_user_pref_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -841,6 +881,7 @@ INSERT INTO `mantis_user_pref_table` (`id`, `user_id`, `project_id`, `default_pr
 -- Table structure for table `mantis_user_print_pref_table`
 --
 
+DROP TABLE IF EXISTS `mantis_user_print_pref_table`;
 CREATE TABLE IF NOT EXISTS `mantis_user_print_pref_table` (
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `print_pref` varchar(64) NOT NULL,
@@ -858,6 +899,7 @@ CREATE TABLE IF NOT EXISTS `mantis_user_print_pref_table` (
 -- Table structure for table `mantis_user_profile_table`
 --
 
+DROP TABLE IF EXISTS `mantis_user_profile_table`;
 CREATE TABLE IF NOT EXISTS `mantis_user_profile_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -879,6 +921,7 @@ CREATE TABLE IF NOT EXISTS `mantis_user_profile_table` (
 -- Table structure for table `mantis_user_table`
 --
 
+DROP TABLE IF EXISTS `mantis_user_table`;
 CREATE TABLE IF NOT EXISTS `mantis_user_table` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(32) NOT NULL DEFAULT '',
@@ -906,4 +949,4 @@ CREATE TABLE IF NOT EXISTS `mantis_user_table` (
 --
 
 INSERT INTO `mantis_user_table` (`id`, `username`, `realname`, `email`, `password`, `date_created`, `last_visit`, `enabled`, `protected`, `access_level`, `login_count`, `lost_password_request_count`, `failed_login_count`, `cookie_string`) VALUES
-(2, 'shard', '', 'shard@ugcs.caltech.edu', '3541c75fd24df42fbb68e549b16dfa90', '2008-09-26 21:15:34', '2009-07-13 16:44:40', 1, 0, 90, 12, 0, 0, '43dbddd0923d23170d62cacaa787da02c5092d8637b04512275757510e32a3e2');
+(2, 'shard', '', 'shard@ugcs.caltech.edu', '3541c75fd24df42fbb68e549b16dfa90', '2008-09-26 21:15:34', '2009-08-04 11:34:55', 1, 0, 90, 13, 0, 0, '43dbddd0923d23170d62cacaa787da02c5092d8637b04512275757510e32a3e2');
