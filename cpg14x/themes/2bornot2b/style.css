@@ -4,7 +4,7 @@
   Copyright (c) 2003-2006 Coppermine Dev Team
   v1.1 originally written by Gregory DEMAR
 
-  This program is free software; you can redistribute it and/or modify
+  This program is free software; you can #F5713Cistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
@@ -18,7 +18,7 @@
 body {
         font-family : Arial, Helvetica, sans-serif;
         font-size: 12px;
-        background : #363636 ;
+        background : #000000 ;
         color : silver;
         margin: 0px;
 }
@@ -31,14 +31,14 @@ body {
         background-color: #101010;
         color: white;
         padding: 0.5em;
-        border: 1px #000000 solid;
+		border: 1px silver solid;
 }
 
 .header{
         font-family : Arial, Helvetica, sans-serif;
         font-weight: normal;
         font-size: 3em;
-        color: white;
+        color: silver;
 }
 #menu {
         vertical-align:bottom
@@ -59,19 +59,19 @@ body {
         margin: 0px
 }
 #menu a:link, #menu a:visited {
-        color: #C0C0C0;
+        color: #FDFF32;
         font-weight: normal;
         border: none;
         text-decoration: none;
 }
 #menu a:hover {
-        color: #FDFF32;
+        color: #F5713C;
         border: none;
 }
 #admin_menu {
         font-size: 100%;
         text-align: left;
-        color: #C0C0C0;
+        color: #FDFF32;
 }
 div.innerdiv {
         width:100%;
@@ -160,7 +160,7 @@ a {
         text-decoration: underline
 }
 a:hover {
-        color: #C0C0C0;
+        color: #FDFF32;
         text-decoration: underline;
 }
 bblink a {
@@ -172,8 +172,8 @@ bblink a:hover {
         text-decoration: underline;
 }
 .maintable {
-        border: 1px solid #000000;
-        background-color: #202020;
+        border: 1px solid #4a4a4a;
+        background-color: #4a4a4a;
         margin-top: 1px;
         margin-bottom: 1px;
 }
@@ -206,7 +206,7 @@ bblink a:hover {
 }
 .tableh2 {
         background: #202020 ;
-        color : #000000;
+        color : silver;
         padding-top: 3px;
         padding-right: 10px;
         padding-bottom: 3px;
@@ -416,12 +416,12 @@ tableh2_compact {
 }
 .imageborder {
         border: 1px solid #000000;
-        background-color: #000000;
+        background-color: #FFFFFF;
         margin-top: 30px;
         margin-bottom: 30px;
 }
 .thumbnails {
-        background: #000000 ;
+        background: #101010 ;
         padding: 5px;
 }
 .footer {
@@ -429,10 +429,10 @@ tableh2_compact {
 }
 .footer a {
         text-decoration: none;
-        color: #C0C0C0;
+        color: silver;
 }
 .footer a:hover {
-        color: silver;
+        color: #F5713C;
         text-decoration: none;
 }
 .statlink {
@@ -451,7 +451,7 @@ tableh2_compact {
         color: silver;
 }
 .alblink a:hover {
-        color: #C0C0C0;
+        color: #FDFF32;
         text-decoration: underline;
 }
 .catlink {
@@ -463,7 +463,7 @@ tableh2_compact {
         color: silver;
 }
 .catlink a:hover {
-        color: #FDFF32;
+        color: #F5713C;
         text-decoration: underline;
 }
 .topmenu {
@@ -492,7 +492,7 @@ tableh2_compact {
         padding-right: 10px;
         padding-bottom: 4px;
         padding-left: 10px;
-        border-top : 1px solid #000000;
+        border-top : 1px solid #4a4a4a;
 }
 .img_caption_table td {
         background: #000000 ;
@@ -500,7 +500,7 @@ tableh2_compact {
         padding-right: 10px;
         padding-bottom: 6px;
         padding-left: 10px;
-        border-top : 1px solid #000000;
+        border-top : 1px solid #4a4a4a;
 }
 .debug_text {
         border: #BDBEBD;
@@ -518,4 +518,10 @@ tableh2_compact {
         font-size: 80%;
         font-family: Arial, Helvetica, sans-serif;
         vertical-align : middle;
+}
+.gallery_description {
+		color: silver;
+		background-color: #000000;
+        font-weight: bold;
+        font-size: 26px;
 }

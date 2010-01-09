@@ -85,7 +85,7 @@ EOT;
 // HTML template for user admin menu
 $template_user_admin_menu = <<<EOT
 
-                <div align="left">
+                <div align="center">
                 <table cellpadding="0" cellspacing="1">
                         <tr>
                                 <td class="admin_menu"><a href="albmgr.php" title="{ALBMGR_TITLE}">{ALBMGR_LNK}</a></td>
