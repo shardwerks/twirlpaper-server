@@ -59,7 +59,10 @@ $HA1 = md5($usernamesafe.':'.$realm.':'.$row['user_password']);
 $HA2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
 $valid_response = md5($HA1.':'.$data['nonce'].':'.$data['nc'].':'.
 	$data['cnonce'].':'.$data['qop'].':'.$HA2);
-	
+
+if ($data['response'] != $valid_response)
+	die('msg=Wrong Credentials!'.chr(13).chr(10));
+
 // Check if account has been enabled through email verification
 $sql = "SELECT user_active FROM {$TWIRLCONFIG['TABLE_USERS']} 
 	WHERE user_id = '".$row['user_id']."';";
