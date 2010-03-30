@@ -1,16 +1,11 @@
-# robots.txt for http://www.twirlpaper.com/
-# Modified from http://commons.wikimedia.org/robots.txt
-#
-# Please note: There are a lot of pages on this site, and there are
-# some misbehaved spiders out there that go _way_ too fast. If you're
-# irresponsible, your access to the site may be blocked.
+User-agent: *
+Disallow: /search.php
+Disallow: /notfound.php
+Disallow: /mailinglist.php
 
-# advertising-related bots:
 User-agent: Mediapartners-Google*
 Disallow: /
 
-# Crawlers that are kind enough to obey, but which we'd rather not have
-# unless they're feeding search engines.
 User-agent: UbiCrawler
 Disallow: /
 
@@ -20,8 +15,6 @@ Disallow: /
 User-agent: Zao
 Disallow: /
 
-# Some bots are known to be trouble, particularly those designed to copy
-# entire sites. Please obey robots.txt.
 User-agent: sitecheck.internetseer.com
 Disallow: /
 
@@ -79,42 +72,17 @@ Disallow: /
 User-agent: Download Ninja
 Disallow: /
 
-# Sorry, wget in its recursive mode is a frequent problem.
-# Please read the man page and use it properly; there is a
-# --wait option you can use to set the delay between hits,
-# for instance.
 User-agent: wget
 Disallow: /
 
-# The 'grub' distributed client has been *very* poorly behaved.
 User-agent: grub-client
 Disallow: /
 
-# Doesn't follow robots.txt anyway, but...
 User-agent: k2spider
 Disallow: /
 
-# Hits many times per second, not acceptable
-# http://www.nameprotect.com/botinfo.html
 User-agent: NPBot
 Disallow: /
 
-# A capture bot, downloads gazillions of pages with no public benefit
-# http://www.webreaper.net/
 User-agent: WebReaper
 Disallow: /
-
-# Don't allow the wayback-maschine to index user-pages
-#User-agent: ia_archiver
-#Disallow: /
-
-# Friendly, low-speed bots are welcome viewing article pages, but not
-# dynamically-generated pages please.
-#
-# Inktomi's "Slurp" can read a minimum delay between hits; if your
-# bot supports such a thing using the 'Crawl-delay' or another
-# instruction, please let us know.
-User-agent: *
-## *at least* 1 second please. preferably more :D
-## we're disabling this experimentally 11-09-2006
-#Crawl-delay: 1

@@ -160,7 +160,7 @@ a {
         text-decoration: underline
 }
 a:hover {
-        color: #FDFF32;
+        color: #F5713C;
         text-decoration: underline;
 }
 bblink a {
@@ -451,7 +451,7 @@ tableh2_compact {
         color: silver;
 }
 .alblink a:hover {
-        color: #FDFF32;
+        color: #F5713C;
         text-decoration: underline;
 }
 .catlink {
@@ -524,4 +524,40 @@ tableh2_compact {
 		background-color: #000000;
         font-weight: bold;
         font-size: 26px;
+}
+
+/* ----------------------------------------------Copyright-------------------------------------*/
+
+#copyright{
+	padding:15px 0;
+	text-align:center;
+	}
+
+#copyright ul{
+	margin:0;
+	padding:0;
+	list-style:none;
+	}
+
+#copyright li{
+	display:inline;
+	margin-right:8px;
+	padding-right:10px;
+	border-right:1px solid #CCCCCC;
+	}
+
+#copyright li.last{
+	margin-right:0;
+	padding-right:0;
+	border-right:none;
+	}
+
+#copyright a {
+        font-weight: normal;
+        border: none;
+        text-decoration: none;
+}
+
+#copyright a:hover {
+        color: #F5713C;
 }
