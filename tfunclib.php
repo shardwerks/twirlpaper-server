@@ -7,10 +7,10 @@
 #
 #	Library of commonly used functions
 
-$dbhost = 'localhost';
-$dbuser = 'tinterface';
-$dbpass = 'lemmein';
-$dbname = 'coppermine';
+$dbhost = 'shard.db';
+$dbuser = 'interface';
+$dbpass = 'tastetherainbow';
+$dbname = 'twirlpaper';
 $realm = 'Restricted@twirlpaper.com';
 
 // Make a MySQL Connection
