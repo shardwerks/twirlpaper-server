@@ -55,7 +55,7 @@ $usernamesafe = sanitize_string($data['username'], 32);
 $sql = "SELECT * FROM {$TWIRLCONFIG['TABLE_USERS']} WHERE user_name = '$usernamesafe';";
 $row = mysql_fetch_assoc(tquery($sql));
 
-$HA1 = md5($usernamesafe.':'.$realm.':'.$row['user_password']);
+$HA1 = md5($usernamesafe.':'.$realm.'-161636'.':'.$row['user_password']);
 $HA2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
 $valid_response = md5($HA1.':'.$data['nonce'].':'.$data['nc'].':'.
 	$data['cnonce'].':'.$data['qop'].':'.$HA2);

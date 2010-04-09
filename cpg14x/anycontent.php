@@ -42,7 +42,7 @@ echo <<< EOT
     <tr>
         <td class="tableb">
 		  <br></br>
-			  <a href="files/twirlpaper0.1.0.exe"><img class="imgl" src="images/twirldownload.png" alt="Twirlpaper Wallpaper Changer" width="304" height="54" /></a>
+			  <a href="Twirlpaper1.0.0.exe"><img class="imgl" src="images/twirldownload.png" alt="Twirlpaper Wallpaper Changer" width="304" height="54" /></a>
 			  <h1>Share your wallpapers</h1>
 			  <h1>then let Twirlpaper Wallpaper Changer</h1>
 			  <h1>pick new wallpapers based on your tastes.</h1>

@@ -8,8 +8,8 @@
 #	Library of commonly used functions
 
 $dbhost = 'shard.db';
-$dbuser = 'interface';
-$dbpass = 'tastetherainbow';
+$dbuser = 'tinterface';
+$dbpass = '6047r4nc3';
 $dbname = 'twirlpaper';
 $realm = 'Restricted@twirlpaper.com';
 
@@ -19,7 +19,7 @@ mysql_select_db($dbname) or exit(mysql_errno().': '.mysql_error());
 
 // Set up table names
 $TWIRLCONFIG = array();
-$TWIRLCONFIG['SITE_URL']			= 'http://localhost/cpg14x/';
+$TWIRLCONFIG['SITE_URL']			= 'http://www.twirlpaper.com/';
 $TWIRLCONFIG['TABLE_PREFIX']		= 'cpg14x_';
 $TWIRLCONFIG['TABLE_PICTURES']		= $TWIRLCONFIG['TABLE_PREFIX'].'pictures';
 $TWIRLCONFIG['TABLE_ALBUMS']		= $TWIRLCONFIG['TABLE_PREFIX'].'albums';
