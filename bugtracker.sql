@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 19, 2010 at 10:58 AM
+-- Generation Time: Aug 28, 2010 at 07:48 AM
 -- Server version: 5.1.41
 -- PHP Version: 5.3.1
 
@@ -18,8 +18,104 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Database: `bugtracker`
 --
-CREATE DATABASE `bugtracker` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `bugtracker`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mantis_bugnote_table`
+--
+
+CREATE TABLE IF NOT EXISTS `mantis_bugnote_table` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `bug_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `reporter_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `bugnote_text_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `view_state` smallint(6) NOT NULL DEFAULT '10',
+  `note_type` int(11) DEFAULT '0',
+  `note_attr` varchar(250) DEFAULT '',
+  `time_tracking` int(10) unsigned NOT NULL DEFAULT '0',
+  `last_modified` int(10) unsigned NOT NULL DEFAULT '1',
+  `date_submitted` int(10) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `idx_bug` (`bug_id`),
+  KEY `idx_last_mod` (`last_modified`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+
+--
+-- Dumping data for table `mantis_bugnote_table`
+--
+
+INSERT INTO `mantis_bugnote_table` (`id`, `bug_id`, `reporter_id`, `bugnote_text_id`, `view_state`, `note_type`, `note_attr`, `time_tracking`, `last_modified`, `date_submitted`) VALUES
+(1, 1, 2, 1, 10, 0, '', 0, 1223165080, 1223143367),
+(3, 2, 2, 3, 10, 0, '', 0, 1223165166, 1223165166),
+(4, 9, 2, 4, 10, 0, '', 0, 1223184709, 1223184709),
+(5, 10, 2, 5, 10, 0, '', 0, 1223282477, 1223282477),
+(6, 6, 2, 6, 10, 0, '', 0, 1223354717, 1223354717),
+(7, 4, 2, 7, 10, 0, '', 0, 1223358011, 1223358011),
+(8, 8, 2, 8, 10, 0, '', 0, 1223361523, 1223361523),
+(9, 12, 2, 9, 10, 0, '', 0, 1223941728, 1223941728),
+(10, 14, 2, 10, 10, 0, '', 0, 1223942620, 1223942620),
+(11, 13, 2, 11, 10, 0, '', 0, 1224372826, 1224372826),
+(12, 15, 2, 12, 10, 0, '', 0, 1224373447, 1224373447),
+(13, 11, 2, 13, 10, 0, '', 0, 1240254427, 1240225130),
+(15, 21, 2, 15, 10, 0, '', 0, 1247247130, 1247247130),
+(16, 10, 2, 16, 10, 0, '', 0, 1247252075, 1247252075),
+(17, 18, 2, 17, 10, 0, '', 0, 1249373495, 1249373495),
+(18, 26, 2, 18, 10, 0, '', 0, 1270807528, 1270807528),
+(19, 27, 2, 19, 10, 0, '', 0, 1270816152, 1270816152),
+(20, 27, 2, 20, 10, 0, '', 0, 1270816768, 1270816768),
+(21, 24, 2, 21, 10, 0, '', 0, 1270817612, 1270817612),
+(22, 26, 2, 22, 10, 0, '', 0, 1270828048, 1270828048),
+(23, 20, 2, 23, 10, 0, '', 0, 1270960858, 1270960858),
+(24, 24, 2, 24, 10, 0, '', 0, 1270964237, 1270964237),
+(25, 17, 2, 25, 10, 0, '', 0, 1270993223, 1270993223),
+(26, 29, 2, 26, 10, 0, '', 0, 1271038323, 1271038323),
+(27, 30, 2, 27, 10, 0, '', 0, 1271641941, 1271088187),
+(28, 17, 2, 28, 10, 0, '', 0, 1271661975, 1271661975);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mantis_bugnote_text_table`
+--
+
+CREATE TABLE IF NOT EXISTS `mantis_bugnote_text_table` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `note` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+
+--
+-- Dumping data for table `mantis_bugnote_text_table`
+--
+
+INSERT INTO `mantis_bugnote_text_table` (`id`, `note`) VALUES
+(1, 'Solution implemented: In frameops.py, OnFrameShow, username box logic has name shown always reset to name saved in config, which is updated every time a sign in succeeds.\n\n'),
+(3, 'Solution implemented: Removed config setting from configops.py, and removed frame setting from frameops.py.'),
+(4, 'Signing in is easier for user to do than copying the user ID, it involves fewer steps.'),
+(5, 'Changed twirlpaper/engine/lib/users.php function generate_user_password and netops.py.'),
+(6, 'Added ~wx.RESIZE_BORDER & ~wx.MAXIMIZE_BOX to frameops.py''s FrameOps class''s wx.Frame.__init__''s style.\r\n\r\nThis not only stops window resizing by dragging window corners, it stops maximizing by clicking the maximize corner button or right clicking on the left corner icon or taskbar icon.'),
+(7, 'Code in tloginreq.php now generates and saves the user ID, and sends it to the client.  Code in netops.py now parses the response for user ID, and shows sign in status on frame.'),
+(8, 'Created new nonce table and added nonce addition and deletion code in tloginreq.php.'),
+(9, 'frameops.py edited to send only updated values to netops.py'),
+(10, 'From [wxpython-users]:\r\n\r\nIf you are not worried about portability to Mac then you can probably \r\nstill handle the mouse events yourself in the taskbar icon, and then \r\npopup the menu yourself.  Then you''ll know when it is active or not. \r\nThis is how the taskbar icon used to work, but because that model didn''t \r\nfit with the dock icons on Mac it had to be adjusted to use the \r\nCreatePopupMenu interface instead.'),
+(11, 'Set flagimage to false in TimerOps when new image loads.'),
+(12, 'Client pops up error message and closes frame.'),
+(13, 'http://stackoverflow.com/questions/638124/cron-like-system-for-windows\r\n\r\n1. Write a PHP file which performs the task of import, export or whatever interaction you want to perform, and make sure you can execute the PHP from command line, similar to >php phptaskname.php\r\n2. Schedule the task in Windows Task Scheduler, may be you want to create a .bat file with the command line as in point 1 and Task Scheduler can call your batch file at the scheduled time.\r\nhttp://www.sitepoint.com/print/php-command-line-1/\n\n'),
+(15, 'Research has found Coppermine to be a good replacement. View attached file for details.'),
+(16, 'Coppermine has this issue as well'),
+(17, 'Use urllib.quote in client to translate space to %20, this properly accesses the file on the server.  Server stores files with spaces in filenames with no problems.'),
+(18, 'Reverting code back to working localhost client with twirlpaper.com updates, the client now acknowledges successful login, but image downloads fail with  not logged in message.'),
+(19, 'Printing $result from tuserconfirm shows that the userhash only had 1 digit.  Checking userhash column in cpg14x_users showed that the column is structured as INT(32).  The data that it stores should be a 32 character MD5 hash.'),
+(20, 'Switching userhash data type from INT(32) to CHAR(32) allowed MD5 string to be properly stored and retrieved.'),
+(21, 'How to resolve the issue of when to expire a hash?  If a hash is kept every time a user logs in, the table would grow without bounds.  Is that acceptable?  If hashes are expired, however, then users would be logged out without notice, violating principle of least surprise.'),
+(22, 'Missed appending .read() to opener.open.'),
+(23, 'Image requests now go through regardless of login status.'),
+(24, 'Give each installation a userhash as soon as it connects to server.  The hash will not be associated with a username until login.'),
+(25, 'Can also display update availability to user.\r\n\r\nShould display non-logged-in status to user.'),
+(26, 'Shell commands are turned off on nearlyfreespeech.net, so ImageMagick cannot be run from PHP script.  A CGI shim would be needed: https://members.nearlyfreespeech.net/forums/viewtopic.php?t=4425\r\n\r\nUsing virtual() in PHP:\r\nhttp://php.net/manual/en/function.virtual.php\r\n\r\nUsing ImageMagick:\r\nhttp://www.imagemagick.org/Usage/resize/#shrink\r\n\r\nImageMagick gives a higher quality and larger file size at default/medium compression than GD/GD2:\r\nhttp://qdig.sourceforge.net/Main/ImageMagickVersusGD\r\n\r\nSome examples using PHP/GD2\r\nhttp://www.phpfreaks.com/forums/index.php?topic=191748.0\r\nhttp://webcache.googleusercontent.com/search?q=cache:l0Zm9kzR1XQJ:www.phpfreaks.com/forums/index.php'),
+(27, 'On Blogger, Settings -> Publishing -> Switch to Custom Domain -> Advanced Features -> Your domain: blog.leoengine.com\r\n\r\nOn NearlyFreeSpeech, domain -> DNS Manage -> Add a DNS Resource Record -> name: blog, type: CNAME, data: ghs.google.com.\n\n'),
+(28, 'If possible, use icon to indicate status, perhaps yellow /!\\ for not logged in, and red (X) for cannot download image or access website.  If possible, use self fade-in/fade-out tooltip to convey message so that user does not have to click OK on a pop-up window.');
 
 -- --------------------------------------------------------
 
@@ -70,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `mantis_bug_history_table` (
   PRIMARY KEY (`id`),
   KEY `idx_bug_history_bug_id` (`bug_id`),
   KEY `idx_history_user_id` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=152 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=153 ;
 
 --
 -- Dumping data for table `mantis_bug_history_table`
@@ -227,7 +323,8 @@ INSERT INTO `mantis_bug_history_table` (`id`, `user_id`, `bug_id`, `field_name`,
 (148, 2, 31, 'category', 'Website', 'Main site', 0, 1271642114),
 (149, 2, 30, 'category', 'Main site', 'Blog', 0, 1271642132),
 (150, 2, 31, 'category', 'Main site', 'Blog', 0, 1271642146),
-(151, 2, 32, '', '', '', 1, 1271642257);
+(151, 2, 32, '', '', '', 1, 1271642257),
+(152, 2, 17, '', '0000028', '', 2, 1271661975);
 
 -- --------------------------------------------------------
 
@@ -362,7 +459,7 @@ INSERT INTO `mantis_bug_table` (`id`, `project_id`, `reporter_id`, `handler_id`,
 (14, 1, 2, 0, 0, 30, 50, 10, 10, 10, 10, 10, 14, '', '', '', '', '', '', 0, 10, 'Stop wallpaper changes when taskbar icon popup menu open', 0, 0, '', 2, 1223942419, 1, 1223942620),
 (15, 1, 2, 2, 0, 30, 60, 10, 80, 20, 10, 10, 15, '', '', '', '', '', '', 0, 10, 'Check response if client cannot connect to server', 0, 0, '', 2, 1224000246, 1, 1224373447),
 (16, 1, 2, 0, 0, 30, 10, 100, 10, 10, 10, 10, 16, '', '', '', '', '', '', 0, 10, 'Automatically translate text based on operating system locale', 0, 0, '', 2, 1224356825, 1, 1224368144),
-(17, 1, 2, 0, 0, 30, 10, 100, 10, 10, 10, 10, 17, '', '', '', '', '', '', 0, 10, 'Display info returned from server in popup message', 0, 0, '', 3, 1224368241, 1, 1270993223),
+(17, 1, 2, 0, 0, 30, 10, 100, 10, 10, 10, 10, 17, '', '', '', '', '', '', 0, 10, 'Display info returned from server in popup message', 0, 0, '', 3, 1224368241, 1, 1271661975),
 (18, 1, 2, 2, 0, 30, 50, 10, 80, 20, 10, 10, 18, '', '', '', '', '', '', 0, 10, 'Images with %20 or space in filename not transmitted properly', 0, 0, '', 3, 1224372978, 1, 1249373495),
 (19, 1, 2, 0, 0, 30, 50, 10, 10, 10, 10, 10, 19, '', '', '', '', '', '', 0, 10, 'Image request should be repeated twice if downloaded image cannot be displayed', 0, 0, '', 2, 1230412526, 1, 1230412526),
 (20, 1, 2, 2, 0, 30, 60, 10, 80, 20, 10, 10, 20, '', '', '', '', '', '', 0, 10, 'If login request fails, image requests also fail', 0, 0, '', 4, 1231014102, 1, 1270960858),
@@ -450,102 +547,6 @@ INSERT INTO `mantis_bug_text_table` (`id`, `description`, `steps_to_reproduce`, 
 (30, 'Increase SEO value, keep some of the page rank from having it at leoengine.com.  Not as good as self-hosted blog at www.leoengine.com/blog, but a lot less work.', '', ''),
 (31, 'Blog nav bar clearly shows that blog is hosted at Blogspot, not as desirable as appearing to be a company hosted blog.  Remove and put Google custom search bar on top.', '', ''),
 (32, 'Currently the images and nav bar are in separate iFrames, switch to a one frame layout with a nav bar fixed via CSS.', '', '');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `mantis_bugnote_table`
---
-
-CREATE TABLE IF NOT EXISTS `mantis_bugnote_table` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `bug_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `reporter_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `bugnote_text_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `view_state` smallint(6) NOT NULL DEFAULT '10',
-  `note_type` int(11) DEFAULT '0',
-  `note_attr` varchar(250) DEFAULT '',
-  `time_tracking` int(10) unsigned NOT NULL DEFAULT '0',
-  `last_modified` int(10) unsigned NOT NULL DEFAULT '1',
-  `date_submitted` int(10) unsigned NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `idx_bug` (`bug_id`),
-  KEY `idx_last_mod` (`last_modified`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
-
---
--- Dumping data for table `mantis_bugnote_table`
---
-
-INSERT INTO `mantis_bugnote_table` (`id`, `bug_id`, `reporter_id`, `bugnote_text_id`, `view_state`, `note_type`, `note_attr`, `time_tracking`, `last_modified`, `date_submitted`) VALUES
-(1, 1, 2, 1, 10, 0, '', 0, 1223165080, 1223143367),
-(3, 2, 2, 3, 10, 0, '', 0, 1223165166, 1223165166),
-(4, 9, 2, 4, 10, 0, '', 0, 1223184709, 1223184709),
-(5, 10, 2, 5, 10, 0, '', 0, 1223282477, 1223282477),
-(6, 6, 2, 6, 10, 0, '', 0, 1223354717, 1223354717),
-(7, 4, 2, 7, 10, 0, '', 0, 1223358011, 1223358011),
-(8, 8, 2, 8, 10, 0, '', 0, 1223361523, 1223361523),
-(9, 12, 2, 9, 10, 0, '', 0, 1223941728, 1223941728),
-(10, 14, 2, 10, 10, 0, '', 0, 1223942620, 1223942620),
-(11, 13, 2, 11, 10, 0, '', 0, 1224372826, 1224372826),
-(12, 15, 2, 12, 10, 0, '', 0, 1224373447, 1224373447),
-(13, 11, 2, 13, 10, 0, '', 0, 1240254427, 1240225130),
-(15, 21, 2, 15, 10, 0, '', 0, 1247247130, 1247247130),
-(16, 10, 2, 16, 10, 0, '', 0, 1247252075, 1247252075),
-(17, 18, 2, 17, 10, 0, '', 0, 1249373495, 1249373495),
-(18, 26, 2, 18, 10, 0, '', 0, 1270807528, 1270807528),
-(19, 27, 2, 19, 10, 0, '', 0, 1270816152, 1270816152),
-(20, 27, 2, 20, 10, 0, '', 0, 1270816768, 1270816768),
-(21, 24, 2, 21, 10, 0, '', 0, 1270817612, 1270817612),
-(22, 26, 2, 22, 10, 0, '', 0, 1270828048, 1270828048),
-(23, 20, 2, 23, 10, 0, '', 0, 1270960858, 1270960858),
-(24, 24, 2, 24, 10, 0, '', 0, 1270964237, 1270964237),
-(25, 17, 2, 25, 10, 0, '', 0, 1270993223, 1270993223),
-(26, 29, 2, 26, 10, 0, '', 0, 1271038323, 1271038323),
-(27, 30, 2, 27, 10, 0, '', 0, 1271641941, 1271088187);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `mantis_bugnote_text_table`
---
-
-CREATE TABLE IF NOT EXISTS `mantis_bugnote_text_table` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `note` longtext NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
-
---
--- Dumping data for table `mantis_bugnote_text_table`
---
-
-INSERT INTO `mantis_bugnote_text_table` (`id`, `note`) VALUES
-(1, 'Solution implemented: In frameops.py, OnFrameShow, username box logic has name shown always reset to name saved in config, which is updated every time a sign in succeeds.\n\n'),
-(3, 'Solution implemented: Removed config setting from configops.py, and removed frame setting from frameops.py.'),
-(4, 'Signing in is easier for user to do than copying the user ID, it involves fewer steps.'),
-(5, 'Changed twirlpaper/engine/lib/users.php function generate_user_password and netops.py.'),
-(6, 'Added ~wx.RESIZE_BORDER & ~wx.MAXIMIZE_BOX to frameops.py''s FrameOps class''s wx.Frame.__init__''s style.\r\n\r\nThis not only stops window resizing by dragging window corners, it stops maximizing by clicking the maximize corner button or right clicking on the left corner icon or taskbar icon.'),
-(7, 'Code in tloginreq.php now generates and saves the user ID, and sends it to the client.  Code in netops.py now parses the response for user ID, and shows sign in status on frame.'),
-(8, 'Created new nonce table and added nonce addition and deletion code in tloginreq.php.'),
-(9, 'frameops.py edited to send only updated values to netops.py'),
-(10, 'From [wxpython-users]:\r\n\r\nIf you are not worried about portability to Mac then you can probably \r\nstill handle the mouse events yourself in the taskbar icon, and then \r\npopup the menu yourself.  Then you''ll know when it is active or not. \r\nThis is how the taskbar icon used to work, but because that model didn''t \r\nfit with the dock icons on Mac it had to be adjusted to use the \r\nCreatePopupMenu interface instead.'),
-(11, 'Set flagimage to false in TimerOps when new image loads.'),
-(12, 'Client pops up error message and closes frame.'),
-(13, 'http://stackoverflow.com/questions/638124/cron-like-system-for-windows\r\n\r\n1. Write a PHP file which performs the task of import, export or whatever interaction you want to perform, and make sure you can execute the PHP from command line, similar to >php phptaskname.php\r\n2. Schedule the task in Windows Task Scheduler, may be you want to create a .bat file with the command line as in point 1 and Task Scheduler can call your batch file at the scheduled time.\r\nhttp://www.sitepoint.com/print/php-command-line-1/\n\n'),
-(15, 'Research has found Coppermine to be a good replacement. View attached file for details.'),
-(16, 'Coppermine has this issue as well'),
-(17, 'Use urllib.quote in client to translate space to %20, this properly accesses the file on the server.  Server stores files with spaces in filenames with no problems.'),
-(18, 'Reverting code back to working localhost client with twirlpaper.com updates, the client now acknowledges successful login, but image downloads fail with  not logged in message.'),
-(19, 'Printing $result from tuserconfirm shows that the userhash only had 1 digit.  Checking userhash column in cpg14x_users showed that the column is structured as INT(32).  The data that it stores should be a 32 character MD5 hash.'),
-(20, 'Switching userhash data type from INT(32) to CHAR(32) allowed MD5 string to be properly stored and retrieved.'),
-(21, 'How to resolve the issue of when to expire a hash?  If a hash is kept every time a user logs in, the table would grow without bounds.  Is that acceptable?  If hashes are expired, however, then users would be logged out without notice, violating principle of least surprise.'),
-(22, 'Missed appending .read() to opener.open.'),
-(23, 'Image requests now go through regardless of login status.'),
-(24, 'Give each installation a userhash as soon as it connects to server.  The hash will not be associated with a username until login.'),
-(25, 'Can also display update availability to user.\r\n\r\nShould display non-logged-in status to user.'),
-(26, 'Shell commands are turned off on nearlyfreespeech.net, so ImageMagick cannot be run from PHP script.  A CGI shim would be needed: https://members.nearlyfreespeech.net/forums/viewtopic.php?t=4425\r\n\r\nUsing virtual() in PHP:\r\nhttp://php.net/manual/en/function.virtual.php\r\n\r\nUsing ImageMagick:\r\nhttp://www.imagemagick.org/Usage/resize/#shrink\r\n\r\nImageMagick gives a higher quality and larger file size at default/medium compression than GD/GD2:\r\nhttp://qdig.sourceforge.net/Main/ImageMagickVersusGD\r\n\r\nSome examples using PHP/GD2\r\nhttp://www.phpfreaks.com/forums/index.php?topic=191748.0\r\nhttp://webcache.googleusercontent.com/search?q=cache:l0Zm9kzR1XQJ:www.phpfreaks.com/forums/index.php'),
-(27, 'On Blogger, Settings -> Publishing -> Switch to Custom Domain -> Advanced Features -> Your domain: blog.leoengine.com\r\n\r\nOn NearlyFreeSpeech, domain -> DNS Manage -> Add a DNS Resource Record -> name: blog, type: CNAME, data: ghs.google.com.\n\n');
 
 -- --------------------------------------------------------
 
@@ -945,16 +946,15 @@ CREATE TABLE IF NOT EXISTS `mantis_tokens_table` (
   `expiry` int(10) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_typeowner` (`type`,`owner`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=43 ;
 
 --
 -- Dumping data for table `mantis_tokens_table`
 --
 
 INSERT INTO `mantis_tokens_table` (`id`, `owner`, `type`, `value`, `timestamp`, `expiry`) VALUES
-(39, 2, 4, '1', 1271641903, 1271642417),
 (33, 2, 5, 'a:1:{s:13:"relationships";b:1;}', 1270807553, 1302406489),
-(40, 2, 3, '32,31,30', 1271641920, 1271728657);
+(42, 2, 4, '1', 1282949194, 1282949494);
 
 -- --------------------------------------------------------
 
@@ -1073,7 +1073,7 @@ CREATE TABLE IF NOT EXISTS `mantis_user_table` (
 --
 
 INSERT INTO `mantis_user_table` (`id`, `username`, `realname`, `email`, `password`, `enabled`, `protected`, `access_level`, `login_count`, `lost_password_request_count`, `failed_login_count`, `cookie_string`, `last_visit`, `date_created`) VALUES
-(2, 'shard', '', 'shard@ugcs.caltech.edu', '3541c75fd24df42fbb68e549b16dfa90', 1, 0, 90, 20, 0, 0, '43dbddd0923d23170d62cacaa787da02c5092d8637b04512275757510e32a3e2', 1271642260, 1222488934);
+(2, 'shard', '', 'shard@ugcs.caltech.edu', '3541c75fd24df42fbb68e549b16dfa90', 1, 0, 90, 22, 0, 0, '43dbddd0923d23170d62cacaa787da02c5092d8637b04512275757510e32a3e2', 1282949196, 1222488934);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
