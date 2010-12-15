@@ -7,7 +7,7 @@
 #
 #	Process login request from client
 
-require_once(dirname(__FILE__)."/tfunclib.php");
+require_once($_SERVER['NFSN_SITE_ROOT']."protected/tfunclib.php");
 
 // Snippets taken from http://www.php.net/features.http-auth
 

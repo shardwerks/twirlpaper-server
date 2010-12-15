@@ -20,7 +20,7 @@
 #		"imageurl"
 #		"imagetags"
 
-require_once(dirname(__FILE__)."/tfunclib.php");
+require_once($_SERVER['NFSN_SITE_ROOT']."protected/tfunclib.php");
 
 if ($loginsafe = tuser_confirm($TWIRLCONFIG['TABLE_USERS'])) {
 	// Parse and store config data
